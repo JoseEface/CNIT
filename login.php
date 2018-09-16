@@ -76,6 +76,10 @@
   vertical-align: middle;
 }
 
+.modal-backdrop {
+   background-color: lightgray;
+}
+
     </style>
     
 
