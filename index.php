@@ -32,13 +32,13 @@ $controlador=filter_input(INPUT_GET,"controller");
         height: auto !important;
         height: 100%;
         /* Negative indent footer by it's height */
-        margin: 0 auto -30px;
+        margin: 0 auto -50px;
       }
 
       /* Set the fixed height of the footer here */
       #push,
       #footer {
-        height: 30px;        
+        height: 50px;        
       }
       #footer {        
 
@@ -128,23 +128,23 @@ $controlador=filter_input(INPUT_GET,"controller");
             <!--Fim do menu da página-->
             
             <div class="col-sm-9">            
-                <!--Aqui vai o conteúdo da página-->
-                
+                <!--Aqui vai o conteúdo da página-->                
+                <?php
+                  if(file_exists("View/$controlador/$controlador-body.php"))
+                    include_once "View/$controlador/$controlador-body.php";
+                ?>
+
+<!--
                 <div class="panel panel-default">
                     <div class="panel-heading" style="background: #2f70a8; color: white; text-align: center; text-transform: uppercase; font-weight: bold">
                         Titulo do panel
                     </div>
                     
-                    <?php
-                      if(file_exists("View/$controlador/$controlador-body.php"))
-                        include_once "View/$controlador/$controlador-body.php";
-                    ?>
-
                     <div class="panel-body">
                         Painel conteudo
                     </div>                    
                 </div>
-            
+-->        
             </div>            
             
         </div>      
@@ -154,9 +154,9 @@ $controlador=filter_input(INPUT_GET,"controller");
     </div>
 
     <div id="footer">
-      <div class="container">
+      
         <p>Diretoria de Ensino de São José do Rio Preto. 2018.</p>
-      </div>
+      
     </div>
 
 
