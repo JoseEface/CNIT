@@ -1,38 +1,3 @@
-<div class="modal fade" id="modalBuscarDono">
-    <div class="modal-dialog">
-        <form method="post" action="">
-            <div class="modal-content">
-
-                <div class="modal-header bg-primary">                
-                    <button type="button" class="close" data-dismiss="modal">&times</button>
-                    <b class="modal-title" style="text-transform: uppercase">Buscar Dono</b>
-                </div>
-                <div class="modal-body">
-
-                    <form>
-                        <div class="form-group">
-                            <label for="donoProcurado">Dono</label>
-                            <input type="text" name="donoProcurado" id="donoProcurado" class="form-control" />
-                        </div>
-                        <button type="button" class="btn btn-default" id="btnProcurarDono">Procurar</button> <br/><br/>
-                        <div class="form-group">
-                            <select id="donoSelecionado" class="form-control" name="donoSelecionado" size="5">
-
-                            </select>
-                        </div>
-                    </form>
-
-                </div>            
-                <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-success" id="btnSelecionarDono">Selecionar</button>
-                </div>
-
-            </div>
-        </form>
-    </div>
-</div>
-
-
 <div class="panel panel-default">
     <div class="panel-heading" style="background: #2f70a8; color: white; text-align: center; text-transform: uppercase; font-weight: bold">
         Busca Solicitação de Atendimento
@@ -54,8 +19,14 @@
                         <input class="form-control col-sm-3 datepicker" type="text" name="dataSolicitacao" id="dataSolicitacao" readonly="readonly"/>
                     </div>
                     <div class="col-sm-5">
+                        <!--
                         <label for="donoAlternativo">Outro dono: </label>
                         <input type="text" class="form-control" type="text" id="donoBuscaSolicitacao" onclick="donoSolicitado(null)" readonly="readonly"/>
+                        -->
+                        <label for="escola">Escola </label>
+                        <select id="escola" name="escola" class="form-control">
+                            <option value="">Selecione...</option>
+                        </select>                
                     </div>
                     <div class="col-sm-4">
                         <label for="idnit">Id NIT</label>
@@ -63,6 +34,7 @@
                     </div>
                 </div>
             </div>
+            <!--
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm-6">
@@ -77,6 +49,7 @@
                     </div>
                 </div>
             </div>
+            -->
         </form>
     </div>   
 
@@ -169,7 +142,7 @@
             </div>
         </form>
     </div>
-<div>
+</div>
 
 <div class="modal fade" id="modalEdicao">
     <div class="modal-dialog">
@@ -227,4 +200,40 @@
         </form>
     </div>
 </div>
+
+<div class="modal fade" id="modalBuscarDono">
+    <div class="modal-dialog">
+        <form method="post" action="">
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary">                
+                    <button type="button" class="close" data-dismiss="modal">&times</button>
+                    <b class="modal-title" style="text-transform: uppercase">Buscar Dono</b>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <div class="form-group">
+                            <label for="donoProcurado">Dono</label>
+                            <input type="text" name="donoProcurado" id="donoProcurado" class="form-control" />
+                        </div>
+                        <button type="button" class="btn btn-default" id="btnProcurarDono">Procurar</button> <br/><br/>
+                        <div class="form-group">
+                            <select id="donoSelecionado" class="form-control" name="donoSelecionado" size="5">
+
+                            </select>
+                        </div>
+                    </form>
+
+                </div>            
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-success" id="btnSelecionarDono">Selecionar</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
 
