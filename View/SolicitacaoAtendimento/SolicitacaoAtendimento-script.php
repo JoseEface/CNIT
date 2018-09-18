@@ -3,6 +3,8 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script src="js/datepicker-BR.js"> </script>
+<script src="js/bootstrapModalFix.js"> </script>
+
 
 <script>
     var addflag=false;
@@ -49,6 +51,20 @@
 
         $("#modalBuscarDono").modal();
     }
-
-
+/*
+  $(document).ready(function(){
+    $('.modal').on('show.bs.modal', function () {
+      if ($(document).height() > $(window).height()) {
+        // no-scroll
+        $('body').addClass("modal-open-noscroll");
+      }
+      else { 
+        $('body').removeClass("modal-open-noscroll");
+      }
+    });
+    $('.modal').on('hide.bs.modal', function () {
+        $('body').removeClass("modal-open-noscroll");
+    });
+  });
+*/
 </script>
