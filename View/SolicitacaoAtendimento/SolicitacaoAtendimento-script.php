@@ -3,8 +3,6 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script src="js/datepicker-BR.js"> </script>
-<script src="js/bootstrapModalFix.js"> </script>
-
 
 <script>
     var addflag=false;
@@ -33,6 +31,8 @@
                 $("#modalEdicao").modal();
             }
         });
+
+        $("#menuSolicitacao").addClass("extraActive");
 
     });
 

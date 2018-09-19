@@ -13,7 +13,7 @@ $controlador=filter_input(INPUT_GET,"controller");
     <!-- CSS -->
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
-       
+    <link rel="stylesheet" href="css/bootfixmodal.css" />
 
     <style type="text/css">
 
@@ -118,9 +118,9 @@ $controlador=filter_input(INPUT_GET,"controller");
             <div class="col-sm-3">
                 <ul class="list-group">
                     <a class="list-group-item active" style="background: #2f70a8; font-weight: bold;">MENU PRINCIPAL</a>
-                    <a class="list-group-item extraActive"><span class="glyphicon glyphicon-home"> </span> Inicial</a>
-                    <a class="list-group-item"><span class="glyphicon glyphicon-wrench"></span> Atendimento</a>
-                    <a class="list-group-item"><span class="glyphicon glyphicon-phone-alt"></span> Solicitação</a>
+                    <a class="list-group-item" id="menuInicial" href="."><span class="glyphicon glyphicon-home"> </span> Inicial</a>
+                    <a class="list-group-item" id="menuAtendimento" href="?controller=Atendimento"><span class="glyphicon glyphicon-wrench"></span> Atendimento</a>
+                    <a class="list-group-item" id="menuSolicitacao" href="?controller=SolicitacaoAtendimento"><span class="glyphicon glyphicon-phone-alt"></span> Solicitação</a>
                     <a class="list-group-item"><span class="glyphicon glyphicon-user"> </span> Minha Conta</a>
                     <a class="list-group-item"><span class="glyphicon glyphicon-log-out"> </span> Sair</a>            
                 </ul>
@@ -132,6 +132,8 @@ $controlador=filter_input(INPUT_GET,"controller");
                 <?php
                   if(file_exists("View/$controlador/$controlador-body.php"))
                     include_once "View/$controlador/$controlador-body.php";
+                  else if(file_exists("View/Inicial/inicialBody.php"))
+                    include_once "View/Inicial/inicialBody.php";
                 ?>
 
 <!--
@@ -163,10 +165,14 @@ $controlador=filter_input(INPUT_GET,"controller");
 
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="js/bootstrapModalFix.js"> </script>
 
     <?php
         if(file_exists("View/$controlador/$controlador-script.php"))
           include_once "View/$controlador/$controlador-script.php";
+        else if(file_exists("View/Inicial/inicialScript.php"))
+          include_once "View/Inicial/inicialScript.php";
+
     ?>
 
   </body>
