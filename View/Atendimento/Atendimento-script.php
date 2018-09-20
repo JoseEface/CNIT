@@ -19,6 +19,24 @@ $(document).ready(function(){
 
     $("#menuAtendimento").addClass("extraActive");
 
+    $("#novaDataInicio").datepicker();
+    $("#novaDataFinalizacao").datepicker();
+    $("#editarDataInicio").datepicker();
+    $("#editarDataFinalizacao").datepicker();
+
+
+    $("#novaDataInicio").click(function(){
+        $("#novaDataInicio").datepicker("setDate",null);
+    });
+
+    $("#novaDataFinalizacao").click(function(){
+        $("#novaDataFinalizacao").datepicker("setDate",null);
+    });
+    $("#editarDataFinalizacao").click(function(){
+        $("#editarDataFinalizacao").datepicker("setDate",null);
+    });
+
+
 });
 
 </script>
