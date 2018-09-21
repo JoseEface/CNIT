@@ -136,6 +136,27 @@ class Atendimento
     /**
      * Get the value of situacao
      */ 
+    public function getIdLocalNaDe()
+    {
+        return $this->idLocalNaDe;
+    }
+
+    /**
+     * Set the value of situacao
+     *
+     * @return  self
+     */ 
+    public function setIdLocalNaDe($idLocal)
+    {
+        $this->idLocalNaDe = $idLocal;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of situacao
+     */ 
     public function getSituacao()
     {
         return $this->situacao;
@@ -186,7 +207,7 @@ class Atendimento
      *
      * @return  self
      */ 
-    public function setDataFinalizado($dataFinalizado)
+    public function setDataFinalizado(\DateTime $dataFinalizado)
     {
         $this->dataFinalizado = $dataFinalizado;
 
@@ -206,7 +227,7 @@ class Atendimento
      *
      * @return  self
      */ 
-    public function setDataInicio($dataInicio)
+    public function setDataInicio(\DateTime $dataInicio)
     {
         $this->dataInicio = $dataInicio;
 

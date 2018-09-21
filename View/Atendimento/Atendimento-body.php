@@ -98,6 +98,14 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <span class="help-block" id="vnovoTecnico">Campo obrigatório</span>
+                            </div>
+                            <div class="col-sm-8">
+                                <span class="help-block" id="vnovoSolicitacaoAtendimento">Campo obrigatório</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <div class="row">
@@ -122,11 +130,34 @@
                                 <input type="text" id="novaDataFinalizacao" name="novaDataFinalizacao" class="form-control" value="" readonly/>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <span class="help-block" id="vnovoLocalDE">Campo obrigatório</span>
+                            </div>
+                            <div class="col-sm-3">
+                                <span class="help-block" id="vnovaSituacao">Campo obrigatório</span>   
+                            </div>
+                            <div class="col-sm-3">
+                                <span class="help-block" id="vnovaDataInicio">Campo obrigatório</span>
+                            </div>
+                            <div class="col-sm-3">
+                                <span class="help-block" id="vnovaDataFinalizacao">Campo obrigatório</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="novaDescricaoSolucao">Descrição solução</label>
-                        <textarea id="novaDescricaoSolucao" name="novaDescricaoSolucao" class="form-control" style="resize: vertical"> 
-                        </textarea>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="novaDescricaoSolucao">Descrição solução</label>
+                                <textarea id="novaDescricaoSolucao" name="novaDescricaoSolucao" class="form-control" style="resize: vertical"> 
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <span class="help-block">Campo obrigatório</span>
+                            </div>
+                        </div>
                     </div>
                 </div>            
                 <div class="modal-footer" style="text-align: center;">
@@ -178,8 +209,8 @@
                                 </select>                
                             </div>
                             <div class="col-sm-3">
-                                <label for="novaSituacao">Situação </label>
-                                <select id="novaSituacao" name="editarSituacao" class="form-control">
+                                <label for="editarSituacao">Situação </label>
+                                <select id="editarSituacao" name="editarSituacao" class="form-control">
                                     <option value="">Selecione....</option>
                                 </select>
                             </div>
@@ -192,11 +223,34 @@
                                 <input type="text" id="editarDataFinalizacao" name="editarDataFinalizacao" class="form-control" value="" readonly/>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <span class="help-block" id="veditarLocalDE">Campo obrigatório</span>
+                            </div>
+                            <div class="col-sm-3">
+                                <span class="help-block" id="veditarSituacao">Campo obrigatório</span>
+                            </div>
+                            <div class="col-sm-3">
+                                <span class="help-block" id="veditarDataInicio">Campo obrigatório</span>
+                            </div>
+                            <div class="col-sm-3">
+                                <span class="help-block" id="veditarDataFinalizado">Campo obrigatório</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="editarDescricaoSolucao">Descrição solução</label>
-                        <textarea id="editarDescricaoSolucao" name="editarDescricaoSolucao" class="form-control" style="resize: vertical"> 
-                        </textarea>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="editarDescricaoSolucao">Descrição solução</label>
+                                <textarea id="editarDescricaoSolucao" name="editarDescricaoSolucao" class="form-control" style="resize: vertical"> 
+                                </textarea>
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <span class="help-block" id="veditarDescricaoSolicitacao">Campo obrigatório</span>
+                            </div>
+                        </div>
                     </div>
                 </div>            
                 <div class="modal-footer" style="text-align: center;">

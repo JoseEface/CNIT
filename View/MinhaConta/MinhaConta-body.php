@@ -16,6 +16,15 @@
                 <div class="col-sm-3">
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-3">
+                </div> 
+                <div class="col-sm-6 offset-md-3">
+                    <span class="help-block" class="color: red" id="vnomeConta">Mensagem de validação</span>
+                </div>
+                <div class="col-sm-3">
+                </div>
+            </div>            
         </div>
         <div class="form-group">
             <div class="row">
@@ -28,6 +37,15 @@
                 <div class="col-sm-3">
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-3">
+                </div> 
+                <div class="col-sm-6 offset-md-3">
+                    <span class="help-block" class="color: red" id="vloginConta">Mensagem de validação</span>
+                </div>
+                <div class="col-sm-3">
+                </div>
+            </div>            
         </div>
         <div class="form-group">
             <div class="row">
@@ -40,6 +58,15 @@
                 <div class="col-sm-3">
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-3">
+                </div> 
+                <div class="col-sm-6 offset-md-3">
+                    <span class="help-block" class="color: red" id="vsenhaConta">Mensagem de validação</span>
+                </div>
+                <div class="col-sm-3">
+                </div>
+            </div>            
         </div>
         <div class="form-group">
             <div class="row">
@@ -52,6 +79,16 @@
                 <div class="col-sm-3">
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-3">
+                </div> 
+                <div class="col-sm-6 offset-md-3">
+                    <span class="help-block" class="color: red" id="vsenhaAlterarConta">Mensagem de validação</span>
+                </div>
+                <div class="col-sm-3">
+                </div>
+            </div>           
+
         </div>
         <div class="form-group">
             <div class="row">
