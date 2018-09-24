@@ -36,6 +36,24 @@ $(document).ready(function(){
         $("#editarDataFinalizacao").datepicker("setDate",null);
     });
 
+    $.ajax({
+        type: "post",
+        url: "Controller/Tecnico/TecnicoController.php",
+        data: {"acao":"getLista"},
+        success: function(retorno) {
+            console.log(retorno);
+            if(retorno.sucesso) {
+                alert(retorno.dados[0].nome);
+            }
+            else {
+
+            }
+        },
+        error: function(req,erro,msg) {
+            console.log(req); console.log(erro);
+            console.log(msg);
+        }
+    });
 
 });
 

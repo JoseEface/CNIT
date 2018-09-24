@@ -1,10 +1,10 @@
 <?php
 
-include_once dirname(__FILE__)."/../Model/Tecnico.class.php";
-include_once dirname(__FILE__)."/../Model/Connection/ConnectionFactory.class.php";
-include_once dirname(__FILE__)."/../Model/DAO/TecnicoDAO.class.php";
-include_once dirname(__FILE__)."/../Model/RetornoJson.class.php";
-include_once dirname(__FILE__)."/../Controller/Acesso/LoginDefinitions.class.php";
+include_once dirname(__FILE__)."/../../Model/Tecnico.class.php";
+include_once dirname(__FILE__)."/../../Model/Connection/ConnectionFactory.class.php";
+include_once dirname(__FILE__)."/../../Model/DAO/TecnicoDAO.class.php";
+include_once dirname(__FILE__)."/../../Model/RetornoJson.class.php";
+include_once dirname(__FILE__)."/../../Controller/Acesso/LoginDefinitions.class.php";
 
 header("Content-type: application/json");
 
@@ -39,19 +39,20 @@ try
                 $tdao=new \Model\DAO\TecnicoDAO($conexao);
                 
                 $tecnico=$tdao->getTecnicoByLogin($usuario);
-                if($tecnico != null)
+                if($tecnico != null && $tecnico->getSenha() == hash("sha256",$senha))
                 {
-                    $senhaArmazenada=$tecnico->getSenha();
-                    if($senhaArmazenada == hash("sha256",$senha))
-                    {
-                        $_SESSION[\Controller\Acesso\LoginDefintions::SESSION_LOGIN_VAR]=serialize($tecnico);
+                    //$senhaArmazenada=$tecnico->getSenha();
+                    //if($senhaArmazenada == hash("sha256",$senha))
+                    //{
+                        $_SESSION[\Controller\Acesso\LoginDefinitions::SESSION_LOGIN_VAR]=serialize($tecnico);
                         $retornoJson->setSucesso(true);
                         $retornoJson->setMensagem("Login efetuado com sucesso !");
                         $retornoJson->setDados(null);
-                    }
+                    //}
+                    //else                    
                 }
                 else
-                    throw \InvalidArgumentException("Usuário e/ou senha inválidos.");
+                    throw new \InvalidArgumentException("Usuário e/ou senha inválidos.");
 
                 break;
 

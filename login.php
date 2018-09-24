@@ -42,6 +42,11 @@
         text-align: center;        
       }
 
+      .help-block {
+          color: red;
+      }
+
+
       /* Lastly, apply responsive CSS fixes as necessary */
       @media (max-width: 767px) {
         #footer {
@@ -105,22 +110,22 @@
                     </div>
                     <div class="modal-body">
                         
-                        <form method="post" action="">
+                        <form method="post" id="formularioLogin" action="">
                             <div class="form-group">
                                 <label for="usuario">Usuário</label>
                                 <input class="form-control" type="text" name="usuario" id="usuario" />
-                                <div class="help-block">Mensagem de validação</div>
+                                <div class="help-block" id="vusuario"></div>
                             </div>
                             <div class="form-group">
                                 <label for="senha">Senha</label>
                                 <input type="password" name="senha" id="senha" class="form-control" />
-                                <div class="help-block">Mensagem de validação</div>
+                                <div class="help-block" id="vsenha"></div>
                             </div>
                         </form>
 
                     </div>
                     <div class="modal-footer" style="text-align: center;" >
-                        <button type="button" class="btn btn-success">Acessar</button>
+                        <button type="button" class="btn btn-success" id="btnAcessar">Acessar</button>
                     </div>
                 </div>
             </div>
@@ -139,10 +144,66 @@
 
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/localization/messages_pt_BR.min.js"></script>
 
     <script>
         $(document).ready(function(){
+
             $("#modalLogin").modal({backdrop: "static", keyboard: "false"});
+
+            $("#formularioLogin").validate({
+                rules: {
+                    usuario: {
+                      required: true
+                    },
+                    senha: {
+                      required: true
+                    }
+                },
+                errorPlacement: function(erro, elemento) {
+                    $("#v"+elemento.attr("id")).html(erro.text());
+                },
+                success: function(rotulo) {
+                    $("#v"+rotulo.attr("id").replace("-error","")).html("");
+                }
+            });
+
+            $("#btnAcessar").click(function(e){
+                e.preventDefault();
+                if($("#formularioLogin").valid())
+                {                    
+                    $.ajax({
+                        type: "post",
+                        url: "Controller/Acesso/AcessoController.php",
+                        data: {"acao":"login", "usuario": $("#usuario").val(), "senha": $("#senha").val() },
+                        dataType: "json",
+                        success: function(resultado) {
+                            if(resultado.sucesso) {
+                                location.href=".";
+                            }
+                            else {
+                                console.log(resultado);
+                                alert("Falha no login: "+resultado.mensagem)
+                            }
+                        },
+                        error: function(req,erro,msg) {
+                            alert("teste");
+                            console.log(req);
+                            console.log(erro);
+                            console.log(msg);
+                        }
+                    }); 
+                }
+            });
+
+            $("#senha").keypress(function(e){
+                if(e.which == 13) 
+                    $("#btnAcessar").click();
+            });
+
         });
     </script>
 

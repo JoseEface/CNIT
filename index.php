@@ -1,4 +1,5 @@
 <?php
+include_once "loginBlocker.php";
 $controlador=filter_input(INPUT_GET,"controller");
 ?>
 <!DOCTYPE html>
@@ -101,7 +102,7 @@ $controlador=filter_input(INPUT_GET,"controller");
                         <ul class="dropdown-menu">
                             <li><a href="#"> <span class="glyphicon glyphicon-user"></span> Perfil  </a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#"> <span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
+                            <li><a href="javascript:void(0)" id="mnpopSair"> <span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
                         </ul>
                         </li>
                     </ul>
@@ -122,7 +123,7 @@ $controlador=filter_input(INPUT_GET,"controller");
                     <a class="list-group-item" id="menuAtendimento" href="?controller=Atendimento"><span class="glyphicon glyphicon-wrench"></span> Atendimento</a>
                     <a class="list-group-item" id="menuSolicitacao" href="?controller=SolicitacaoAtendimento"><span class="glyphicon glyphicon-phone-alt"></span> Solicitação</a>
                     <a class="list-group-item" id="menuMinhaConta" href="?controller=MinhaConta"><span class="glyphicon glyphicon-user"> </span> Minha Conta</a>
-                    <a class="list-group-item"><span class="glyphicon glyphicon-log-out"> </span> Sair</a>            
+                    <a class="list-group-item" id="menuSair" href="javascript:void(0)"><span class="glyphicon glyphicon-log-out"> </span> Sair</a>            
                 </ul>
             </div>
             <!--Fim do menu da página-->
@@ -165,7 +166,9 @@ $controlador=filter_input(INPUT_GET,"controller");
 
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
     <script src="js/bootstrapModalFix.js"> </script>
+    <script type="text/javascript" src="js/Principal/PaginaScript.js"> </script>
 
     <?php
         if(file_exists("View/$controlador/$controlador-script.php"))
