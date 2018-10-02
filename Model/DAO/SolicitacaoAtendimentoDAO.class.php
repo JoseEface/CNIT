@@ -53,6 +53,26 @@ class SolicitacaoAtendimentoDAO
         
         return $lista;
     }
+
+    public function qtdSolicitacaoLivre()
+    {
+        $consulta="select count(SolicitacaoAtendimento.idSolicitacaoAtendimento) as qtdSolicitacao from solicitacaoatendimento left join atendimento
+                   on solicitacaoatendimento.idSolicitacaoAtendimento=atendimento.idSolicitacaoAtendimento
+                   where atendimento.idTecnico is null";
+        $quantidade = 0;
+        $comando=$this->conexao->prepare($consulta);
+
+        if($comando->execute())
+        {
+            if($comando->rowCount())
+            {
+                $linha = $comando->fetch(\PDO::FETCH_ASSOC);
+                $quantidade= $linha["qtdSolicitacao"];
+            }
+        }
+
+        return $quantidade;
+    }
     
 }
 

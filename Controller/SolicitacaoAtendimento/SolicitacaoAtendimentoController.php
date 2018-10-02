@@ -22,6 +22,15 @@ try
             $retornoJson->setMensagem("Lista retornada com sucesso !");
             $retornoJson->setDados(\Model\RetornoJson::prepareArraySerialize($lista));
             break;
+        case "qtdSolicitacaoAtendimento":
+            $conexao=\Model\Connection\ConnectionFactory::getConnection();
+            $sadao=new \Model\DAO\SolicitacaoAtendimentoDAO($conexao);
+
+            $quantidade=$sadao->qtdSolicitacaoLivre();
+            $retornoJson->setSucesso(false);
+            $retornoJson->setMensagem("Quantidade consultada com sucesso.");
+            $retornoJson->setDados($quantidade);
+            break;
         default:
             throw new \InvalidArgumentException("Ação inválida para o controlador");
     }

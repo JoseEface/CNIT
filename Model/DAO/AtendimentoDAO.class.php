@@ -48,6 +48,8 @@ class AtendimentoDAO
                     $lista[]=$this->fillObject($linha);
             }
         }
+        
+        $comando->closeCursor();
 
         return $lista;
     }
@@ -65,14 +67,17 @@ class AtendimentoDAO
         {
             if($comando->rowCount())
             {                
-                $linha = $comando->fetch(\PDO::FETCH_ASSOC));
+                $linha = $comando->fetch(\PDO::FETCH_ASSOC);
                 $atendimento=$this->fillObject($linha);
             }
         }
 
+        $comando->closeCursor();
+
+        return $atendimento;
     }
 
-    public function listaSolicitacaoBusca($idTecnico, $idnit, $idSituacao) {
+    public function listaAtendimentoBusca($idTecnico, $idnit, $idSituacao) {
         $consulta="select atendimento.idTecnico as idTecnico, atendimento.idSolicitacaoAtendimento as idSolicitacaoAtendimento, solicitacaoatendimento.idNit as idNit, escola.nome as escolaNome, tecnico.nome as tecnicoNome, situacao.situacao as situacao 
                    from atendimento 
                    inner join solicitacaoatendimento on atendimento.idSolicitacaoAtendimento=SolicitacaoAtendimento.idSolicitacaoAtendimento
@@ -85,16 +90,19 @@ class AtendimentoDAO
         $buscaAtendimento=null;
         
         if($idTecnico != null)
-            $consulta+=" and idTecnico=:idTecnico";
+            $consulta.=" and Atendimento.idTecnico=:idTecnico";
         if($idnit != null)
-            $consulta+=" and idNit=:idNit";
+            $consulta.=" and idNit=:idNit";
         if($idSituacao != null)
-            $consulta+=" and idSituacao=:idSituacao";
+            $consulta.=" and situacao.idSituacao=:idSituacao";
         
         $comando=$this->conexao->prepare($consulta);
-        $comando->bindValue(":idTecnico",$idTecnico,\PDO::PARAM_INT);
-        $comando->bindValue(":idNit",$idnit,\PDO::PARAM_INT);
-        $comando->bindValue(":idSituacao",$idSituacao,\PDO::PARAM_INT);
+        if($idTecnico != null)
+            $comando->bindValue(":idTecnico",$idTecnico,\PDO::PARAM_INT);
+        if($idnit != null)
+            $comando->bindValue(":idNit",$idnit,\PDO::PARAM_STR);
+        if($idSituacao != null)
+            $comando->bindValue(":idSituacao",$idSituacao,\PDO::PARAM_INT);
 
         if($comando->execute())
         {
@@ -102,9 +110,9 @@ class AtendimentoDAO
             {
                 while($linha = $comando->fetch(\PDO::FETCH_ASSOC))
                 {
-                    $buscaAtendimento=new Model\BuscaAtendimento();
+                    $buscaAtendimento=new \Model\BuscaAtendimento();
                     $buscaAtendimento->setIdTecnico($linha["idTecnico"]);
-                    $buscaAtendimento->setSolicitacaoAtendimento($linha["idSolicitacaoAtendimento"]);
+                    $buscaAtendimento->setIdSolicitacaoAtendimento($linha["idSolicitacaoAtendimento"]);
                     $buscaAtendimento->setIdNit($linha["idNit"]);
                     $buscaAtendimento->setEscolaNome($linha["escolaNome"]);
                     $buscaAtendimento->setTecnicoNome($linha["tecnicoNome"]);
@@ -113,10 +121,49 @@ class AtendimentoDAO
                 }
             }
         }
+        
+        $comando->closeCursor();
 
         return $lista;
     }
 
+    public function adicionar(\Model\Atendimento $novoAtendimento)
+    {
+        $insercao = "insert into Atendimento values(:idtecnico,:idsolicitacaoatendimento,:descricaosolucao,:idlocalnade,:idsituacao,:datafinalizado,:datainicio);";
+        $comando = $this->conexao->prepare($insercao);
+
+        $comando->bindValue(":idtecnico",$novoAtendimento->getIdTecnico(),\PDO::PARAM_INT);
+        $comando->bindValue(":idsolicitacaoatendimento",$novoAtendimento->getIdSolicitacaoAtendimento(),\PDO::PARAM_INT);
+        $comando->bindValue(":descricaosolucao",$novoAtendimento->getDescricaoSolucao(),\PDO::PARAM_STR);
+        $comando->bindValue(":idlocalnade",$novoAtendimento->getIdLocalNaDe(),\PDO::PARAM_INT);
+        $comando->bindValue(":idsituacao",$novoAtendimento->getIdSituacao(),\PDO::PARAM_INT);
+        $comando->bindValue(":datafinalizado",($novoAtendimento->getDataFinalizado() == null)?null:$novoAtendimento->getDataFinalizado()->format("Y-m-d"),\PDO::PARAM_STR);
+        $comando->bindValue(":datainicio",$novoAtendimento->getDataInicio()->format("Y-m-d"),\PDO::PARAM_STR);
+        
+        return $comando->execute();    
+    }
+
+    public function verificaAtendimentoLivre($idSolicitacaoAtendimento)
+    {
+        $consulta = "select count(solicitacaoatendimento.idSolicitacaoAtendimento) as qtdSolicitacao from solicitacaoatendimento 
+                     inner join atendimento on solicitacaoatendimento.idSolicitacaoAtendimento=atendimento.idSolicitacaoAtendimento 
+                     where solicitacaoatendimento.idSolicitacaoAtendimento=:idsolicitacao;";
+        $comando = $this->conexao->prepare($consulta);
+        $comando->bindValue(":idsolicitacao",$idSolicitacaoAtendimento,\PDO::PARAM_INT);
+        $quantidade=0;
+
+        if($comando->execute())        
+        {
+            $linha=$comando->fetch(\PDO::FETCH_ASSOC);
+            $quantidade=$linha["qtdSolicitacao"];
+        }
+        else
+            throw new \RuntimeException("atendimentolivre-dao: falha ao consultar atendimento livre");
+
+        $comando->closeCursor();
+
+        return ($quantidade==0);
+    }
 }
 
 

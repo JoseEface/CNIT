@@ -8,32 +8,46 @@
 
         <div class="row">
             <div class="col-sm-12">
+                <!--
                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalAdicionar" id="btnNovo"><span class="glyphicon glyphicon-plus"></span> Novo</button>
+                -->
+                <button type="button" class="btn btn-primary btn-sm" id="btnNovo"><span class="glyphicon glyphicon-plus"></span> Novo</button>
             </div>
         </div>
         <br/>
 
-        <form method="post" action="">
+        <form method="post" action="" id="formBuscar">
             <div class="form-group">
                 <div class="row">
 
                     <div class="col-sm-4">
                         <label for="buscaTecnico">Técnico</label>
-                        <select id="buscaTecnico" name="buscaTecnico" class="form-control">
+                        <select id="buscaTecnico" name="buscaTecnico" class="form-control .busca-group">
                             <option value="">Selecione...</select>                            
                         </select>
                     </div>
                     <div class="col-sm-4"> 
                         <label for="buscaIdNit">Id NIT</label>
-                        <input type="text" id="buscaIdNit" name="buscaIdNit" class="form-control" placeholder="Id NIT" />
+                        <input type="text" id="buscaIdNit" name="buscaIdNit" class="form-control .busca-group" placeholder="Id NIT" />
                     </div>
                     <div class="col-sm-4"> 
                         <label for="buscaSituacao">Situação</label>
-                        <select id="buscaSituacao" name="buscaSituacao" class="form-control">
+                        <select id="buscaSituacao" name="buscaSituacao" class="form-control .busca-group">
                             <option value="">Selecione...</option>
                         </select>
                     </div>
 
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <span class="help-block" style="color: red;" id="vbuscaTecnico"> </span>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="help-block" style="color: red;" id="vbuscaIdNit"> </span>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="help-block" style="color: red;" id="vbuscaSituacao"> </span>
+                    </div>
                 </div>
             </div>
         </form>
@@ -72,7 +86,7 @@
 <!-- MODAL DE ADIÇÃO DE ATENDIMENTO -->
 <div class="modal fade" id="modalAdicionar">
     <div class="modal-dialog">
-        <form method="post" action="">
+        <form method="post" action="" id="formAdicionar">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                 
@@ -92,18 +106,18 @@
                                 </select>
                             </div>
                             <div class="col-sm-8">
-                                <label for="novoSolicitacaoAtendimento">Solicitação </label>
-                                <select id="novoSolicitacaoAtendimento" name="novoSolicitacaoAtendimento" class="form-control">
+                                <label for="novaSolicitacaoAtendimento">Solicitação </label>
+                                <select id="novaSolicitacaoAtendimento" name="novaSolicitacaoAtendimento" class="form-control">
                                     <option value="">Selecione...</option>
                                 </select>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-4">
-                                <span class="help-block" id="vnovoTecnico">Campo obrigatório</span>
+                                <span class="help-block" id="vnovoTecnico"></span>
                             </div>
                             <div class="col-sm-8">
-                                <span class="help-block" id="vnovoSolicitacaoAtendimento">Campo obrigatório</span>
+                                <span class="help-block" id="vnovoSolicitacaoAtendimento"></span>
                             </div>
                         </div>
                     </div>
@@ -132,16 +146,16 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-3">
-                                <span class="help-block" id="vnovoLocalDE">Campo obrigatório</span>
+                                <span class="help-block" id="vnovoLocalDE"></span>
                             </div>
                             <div class="col-sm-3">
-                                <span class="help-block" id="vnovaSituacao">Campo obrigatório</span>   
+                                <span class="help-block" id="vnovaSituacao"></span>   
                             </div>
                             <div class="col-sm-3">
-                                <span class="help-block" id="vnovaDataInicio">Campo obrigatório</span>
+                                <span class="help-block" id="vnovaDataInicio"></span>
                             </div>
                             <div class="col-sm-3">
-                                <span class="help-block" id="vnovaDataFinalizacao">Campo obrigatório</span>
+                                <span class="help-block" id="vnovaDataFinalizacao"></span>
                             </div>
                         </div>
                     </div>
@@ -155,7 +169,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <span class="help-block">Campo obrigatório</span>
+                                <span class="help-block" id="vnovaDescricaoSolucao"></span>
                             </div>
                         </div>
                     </div>
@@ -225,16 +239,16 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-3">
-                                <span class="help-block" id="veditarLocalDE">Campo obrigatório</span>
+                                <span class="help-block" id="veditarLocalDE"></span>
                             </div>
                             <div class="col-sm-3">
-                                <span class="help-block" id="veditarSituacao">Campo obrigatório</span>
+                                <span class="help-block" id="veditarSituacao"></span>
                             </div>
                             <div class="col-sm-3">
-                                <span class="help-block" id="veditarDataInicio">Campo obrigatório</span>
+                                <span class="help-block" id="veditarDataInicio"></span>
                             </div>
                             <div class="col-sm-3">
-                                <span class="help-block" id="veditarDataFinalizado">Campo obrigatório</span>
+                                <span class="help-block" id="veditarDataFinalizado"></span>
                             </div>
                         </div>
                     </div>
@@ -248,7 +262,7 @@
                         </div> 
                         <div class="row">
                             <div class="col-sm-12">
-                                <span class="help-block" id="veditarDescricaoSolicitacao">Campo obrigatório</span>
+                                <span class="help-block" id="veditarDescricaoSolicitacao"></span>
                             </div>
                         </div>
                     </div>

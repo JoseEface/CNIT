@@ -3,7 +3,6 @@
 namespace Model;
 
 include_once dirname(__FILE__)."/Tecnico.class.php";
-include_once dirname(__FILE__)."/Solucao.class.php";
 include_once dirname(__FILE__)."/SolicitacaoAtendimento.class.php";
 include_once dirname(__FILE__)."/LocalNaDe.class.php";
 
@@ -207,7 +206,7 @@ class Atendimento
      *
      * @return  self
      */ 
-    public function setDataFinalizado(\DateTime $dataFinalizado)
+    public function setDataFinalizado(\DateTime $dataFinalizado = null)
     {
         $this->dataFinalizado = $dataFinalizado;
 
