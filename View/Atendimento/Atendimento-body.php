@@ -72,7 +72,8 @@
                     <th>Escola</th>
                     <th>Id NIT</th>
                     <th>Técnico</th>
-                    <th>Situação</th>                    
+                    <th>Situação</th>    
+                    <th>Operação</th>                
                 </tr>
             </thead>
             <tbody>
@@ -208,9 +209,12 @@
                             </div>
                             <div class="col-sm-8">
                                 <label for="editarSolicitacaoAtendimento">Solicitação </label>
+                                <input type="text" class="form-control" name="edsolicitacao" disabled="disabled" />
+                                <!--
                                 <select id="editarSolicitacaoAtendimento" name="editarSolicitacaoAtendimento" class="form-control">
                                     <option value="">Selecione...</option>
-                                </select>
+                                </select> 
+                                -->
                             </div>
                         </div>
                     </div>

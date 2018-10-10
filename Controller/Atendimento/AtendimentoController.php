@@ -98,6 +98,24 @@ try
             $retornoJson->setMensagem("Novo atendimento adicionado com sucesso.");
             $retornoJson->setDados(null);     
             break;
+        case "carregarAtendimento":
+            $idtecnico = filter_input(INPUT_POST,"idtecnico",\FILTER_VALIDATE_INT);
+            $idsolicitacao = filter_input(INPUT_POST,"idsolicitacao",\FILTER_VALIDATE_INT);
+
+            if($idtecnico == null || $idtecnico === false)
+                throw new \InvalidArgumentException("carregarAtendimento: Falha ao receber idtecnico");
+            if($idsolicitacao == null | $idsolicitacao === false)
+                throw new \InvalidArgumentException("carregarAtendimento: Falha ao receber idsolicitacao");
+            
+            $conexao=\Model\Connection\ConnectionFactory::getConnection();
+            $adao=new \Model\DAO\AtendimentoDAO($conexao);
+            $atendimento = $adao->retornaUnico($idtecnico,$idsolicitacao);
+
+            $retornoJson->setSucesso(true);
+            $retornoJson->setMensagem("Atendimento retornado com sucesso");
+            if($atendimento != null)
+                $retornoJson->setDados($atendimento->prontoParaSerialize());
+            break;
         default:
             throw new \InvalidArgumentException("adicionar: Comando inválido passado para o controlador");
     }

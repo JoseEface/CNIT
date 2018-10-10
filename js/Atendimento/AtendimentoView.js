@@ -116,13 +116,15 @@ var AtendimentoView = {
                 AtendimentoController.BuscaAtendimento(
                     {"idtecnico" : $("#buscaTecnico").val(), "idnit": $("#buscaIdNit").val(), "idsituacao" : $("#buscaSituacao").val() },
                     function(retorno) {
+                        alert("aqui");
                         //console.log(retorno);
                         if(retorno.sucesso) {
                             AtendimentoView.tabela.clear().draw();                        
                             if(!retorno.dados.length)
                                 alert("Nenhum registro encontrado");
-                            for(x=0;x<retorno.dados.length;x++)                            
-                                AtendimentoView.tabela.row.add([ retorno.dados[x].escolaNome, retorno.dados[x].idNit, retorno.dados[x].tecnicoNome, retorno.dados[x].situacao ] ).draw(false);
+                            /*"<button type=\"button\" class=\"btn btn-sm\" onclick=\"javascript:AtendimentoView.CarregarAtendimento("+retorno.dados[x].idTecnico+","+retorno.dados[x].idSolicitacaoAtendimento+")\"><span class=\"glyphicon glyphicon-pencil\"></span></button>" ]*/
+                            for(x=0;x<retorno.dados.length;x++)                                                        
+                                AtendimentoView.tabela.row.add([ retorno.dados[x].escolaNome, retorno.dados[x].idNit, retorno.dados[x].tecnicoNome, retorno.dados[x].situacao, "<button type=\"button\" class=\"btn btn-sm\" onclick=\"javascript:AtendimentoView.CarregarAtendimento("+retorno.dados[x].idTecnico+","+retorno.dados[x].idSolicitacaoAtendimento+")\"><span class=\"glyphicon glyphicon-pencil\"></span></button>"]).draw(false);
                         }                    
                         else {
                             alert("Não foi possível consultar informações: "+retorno.mensagem);
@@ -195,8 +197,7 @@ var AtendimentoView = {
                     required: true
                 }
             }
-        );
-    
+        ); 
     
         $("#btnAdicionarAtendimento").click(function(e){
             e.preventDefault();
@@ -244,5 +245,22 @@ var AtendimentoView = {
             );*/
         });
 
+    },
+    CarregarAtendimento: function(idTecnico,idSolicitacao) {
+        AtendimentoController.CarregarAtendimento(
+            {"idtecnico":idTecnico,"idsolicitacao":idSolicitacao},
+            function(retorno) {                
+                //console.log(retorno);
+                if(retorno.sucesso) {
+                    
+                }
+                else
+                    alert("Falha ao retornar dados do servidor "+retorno.mensagem);
+            },
+            function(req,erro,msg) {
+                alert("Falha na solicitação");
+                console.log(req); console.log(erro); console.log(msg);
+            }
+        );
     }
 }

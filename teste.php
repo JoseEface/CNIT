@@ -23,6 +23,8 @@ $datapadrao= \DateTime::createFromFormat("Y-m-d H:i:s", '2009-02-15 00:00:00', n
 $datapadrao= \DateTime::createFromFormat("d/m/Y","02/02/2018", new \DateTimeZone("America/Sao_Paulo"));
 echo $datapadrao->format("d/m/Y");
 
+echo "LALALLALALALALALALALA";
+
 $teste = new \DateTime("adfasfdsdaf",new \DateTimeZone("America/Sao_Paulo"));
 print_r($teste);
 
@@ -30,6 +32,7 @@ print_r($teste);
 //$conexao = \Model\Connection\ConnectionFactory::getConnection();
 print_r((new \Model\DAO\SolicitacaoAtendimentoDAO(\Model\Connection\ConnectionFactory::getConnection()))->listarSolicitacoesLivres());
 */
+
 
 
 

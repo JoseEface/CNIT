@@ -28,9 +28,11 @@ class AtendimentoDAO
         if(array_key_exists("idSituacao",$linha))
             $atendimento->setIdSituacao($linha["idSituacao"]);
         if(array_key_exists("dataFinalizado",$linha))
-            $atendimento->setDataFinalizado(is_null($linha["dataFinalizadp"])? null : (new \DateTime($linha["dataFinalizado"],new \DateTimeZone("America/Sao_Paulo"))) );
-        if(array_key_exists("dataIncio",$linha))
+            $atendimento->setDataFinalizado(is_null($linha["dataFinalizado"])? null : (new \DateTime($linha["dataFinalizado"],new \DateTimeZone("America/Sao_Paulo"))) );
+        if(array_key_exists("dataInicio",$linha))
             $atendimento->setDataInicio(new \DateTime($linha["dataInicio"],new \DateTimeZone("America/Sao_Paulo")) );            
+        //print_r($atendimento);
+        return $atendimento;
     }
 
     public function listarTodos()
@@ -56,12 +58,12 @@ class AtendimentoDAO
 
     public function retornaUnico($idTecnico, $idSolicitacaoAtendimento)
     {
-        $consulta= "select * from Atendimento where idTecnico=:idTecnico and idSolicitacaoAtendimento=:idSolicitacao";
+        $consulta= "select * from atendimento where idtecnico=1 and idsolicitacaoatendimento=1";
         $comando = $this->conexao->prepare($consulta);
         $comando->bindValue(":idTecnico",$idTecnico);
         $comando->bindValue(":idSolicitacao",$idSolicitacaoAtendimento);
         $linha=null;
-        $atendimento;
+        $atendimento=null;
 
         if($comando->execute())
         {
@@ -71,6 +73,8 @@ class AtendimentoDAO
                 $atendimento=$this->fillObject($linha);
             }
         }
+        else
+            echo "O comando não executou";
 
         $comando->closeCursor();
 

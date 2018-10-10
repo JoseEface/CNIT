@@ -111,5 +111,21 @@ var AtendimentoController = {
                 fxerro(req,erro,msg);
             }
         });
+    },
+    CarregarAtendimento: function(parametros,fxsucesso,fxerro) {
+        if(parametros.idtecnico == null || parametros.idsolicitacao == null)
+            throw new Error("CarregarAtendimento: idtecnico não definida");        
+        $.ajax({
+            type: "post",
+            url: "Controller/Atendimento/AtendimentoController.php",
+            data: {"acao":"carregarAtendimento","idtecnico": parametros.idtecnico, "idsolicitacao": parametros.idsolicitacao},
+            dataType: "json",
+            success: function(retorno) {
+                fxsucesso(retorno);
+            },
+            error: function(req,erro,msg) {
+                fxerro(req,erro,msg);
+            }
+        }); 
     }
 }
