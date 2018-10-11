@@ -209,7 +209,7 @@
                             </div>
                             <div class="col-sm-8">
                                 <label for="editarSolicitacaoAtendimento">Solicitação </label>
-                                <input type="text" class="form-control" name="edsolicitacao" disabled="disabled" />
+                                <input type="text" class="form-control" id="editarSolicitacaoAtendimento" name="editarSolicitacaoAtendimento" disabled="disabled" />
                                 <!--
                                 <select id="editarSolicitacaoAtendimento" name="editarSolicitacaoAtendimento" class="form-control">
                                     <option value="">Selecione...</option>

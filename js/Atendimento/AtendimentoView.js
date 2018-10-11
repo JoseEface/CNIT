@@ -43,6 +43,7 @@ var AtendimentoView = {
                     {
                         $("#buscaTecnico").append("<option value='"+retorno.dados[x].idTecnico+"'>"+retorno.dados[x].nome+"</option>");
                         $("#novoTecnico").append("<option value='"+retorno.dados[x].idTecnico+"'>"+retorno.dados[x].nome+"</option>");
+                        $("#editarTecnico").append("<option value='"+retorno.dados[x].idTecnico+"'>"+retorno.dados[x].nome+"</option>");
                     }
                 }
                 else {
@@ -252,7 +253,16 @@ var AtendimentoView = {
             function(retorno) {                
                 //console.log(retorno);
                 if(retorno.sucesso) {
-                    
+                    $("#editarTecnico").val(retorno.dados.idTecnico);
+                    document.getElementById("editarSolicitacaoAtendimento").value=retorno.dados.idSolicitacaoAtendimento;
+                    $("#editarLocalDE").val(retorno.dados.idLocalNaDe);
+                    $("#editarSituacao").val(retorno.dados.idSituacao);
+                    $("#editarDataInicio").val((new Date(retorno.dados.dataInicio.date)).toLocaleDateString());
+                    if(retorno.dataFinalizado)
+                        $("#editarDataFinalizacao").val( (new Date(retorno.dados.dataFinalizado.date)).toLocaleDateString() );
+                    $("#editarDescricaoSolucao").val(retorno.dados.descricaoSolucao);
+
+                    $("#modalEditar").modal();
                 }
                 else
                     alert("Falha ao retornar dados do servidor "+retorno.mensagem);
