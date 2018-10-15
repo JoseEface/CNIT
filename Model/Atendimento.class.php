@@ -3,7 +3,6 @@
 namespace Model;
 
 include_once dirname(__FILE__)."/Tecnico.class.php";
-include_once dirname(__FILE__)."/Solucao.class.php";
 include_once dirname(__FILE__)."/SolicitacaoAtendimento.class.php";
 include_once dirname(__FILE__)."/LocalNaDe.class.php";
 
@@ -136,6 +135,27 @@ class Atendimento
     /**
      * Get the value of situacao
      */ 
+    public function getIdLocalNaDe()
+    {
+        return $this->idLocalNaDe;
+    }
+
+    /**
+     * Set the value of situacao
+     *
+     * @return  self
+     */ 
+    public function setIdLocalNaDe($idLocal)
+    {
+        $this->idLocalNaDe = $idLocal;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of situacao
+     */ 
     public function getSituacao()
     {
         return $this->situacao;
@@ -186,7 +206,7 @@ class Atendimento
      *
      * @return  self
      */ 
-    public function setDataFinalizado($dataFinalizado)
+    public function setDataFinalizado(\DateTime $dataFinalizado = null)
     {
         $this->dataFinalizado = $dataFinalizado;
 
@@ -206,11 +226,16 @@ class Atendimento
      *
      * @return  self
      */ 
-    public function setDataInicio($dataInicio)
+    public function setDataInicio(\DateTime $dataInicio)
     {
         $this->dataInicio = $dataInicio;
 
         return $this;
+    }
+
+    public function prontoParaSerialize()
+    {
+        return get_object_vars($this);
     }
 }
 

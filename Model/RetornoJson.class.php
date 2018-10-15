@@ -67,6 +67,17 @@ class RetornoJson
         return $this;
     }
 
+    public static function prepareArraySerialize($novo)
+    {
+        $lista=array();
+        if(is_array($novo))
+        {
+            foreach($novo as $objeto)
+                $lista[]=$objeto->prontoParaSerialize();
+        }
+        return $lista;
+    }
+
     public function prontoParaSerialize()
     {
         return get_object_vars($this);

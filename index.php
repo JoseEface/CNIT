@@ -1,4 +1,5 @@
 <?php
+include_once "loginBlocker.php";
 $controlador=filter_input(INPUT_GET,"controller");
 ?>
 <!DOCTYPE html>
@@ -13,7 +14,7 @@ $controlador=filter_input(INPUT_GET,"controller");
     <!-- CSS -->
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
-       
+    <link rel="stylesheet" href="css/bootfixmodal.css" />
 
     <style type="text/css">
 
@@ -32,13 +33,13 @@ $controlador=filter_input(INPUT_GET,"controller");
         height: auto !important;
         height: 100%;
         /* Negative indent footer by it's height */
-        margin: 0 auto -30px;
+        margin: 0 auto -50px;
       }
 
       /* Set the fixed height of the footer here */
       #push,
       #footer {
-        height: 30px;        
+        height: 50px;        
       }
       #footer {        
 
@@ -101,7 +102,7 @@ $controlador=filter_input(INPUT_GET,"controller");
                         <ul class="dropdown-menu">
                             <li><a href="#"> <span class="glyphicon glyphicon-user"></span> Perfil  </a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#"> <span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
+                            <li><a href="javascript:void(0)" id="mnpopSair"> <span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
                         </ul>
                         </li>
                     </ul>
@@ -118,33 +119,35 @@ $controlador=filter_input(INPUT_GET,"controller");
             <div class="col-sm-3">
                 <ul class="list-group">
                     <a class="list-group-item active" style="background: #2f70a8; font-weight: bold;">MENU PRINCIPAL</a>
-                    <a class="list-group-item extraActive"><span class="glyphicon glyphicon-home"> </span> Inicial</a>
-                    <a class="list-group-item"><span class="glyphicon glyphicon-wrench"></span> Atendimento</a>
-                    <a class="list-group-item"><span class="glyphicon glyphicon-phone-alt"></span> Solicitação</a>
-                    <a class="list-group-item"><span class="glyphicon glyphicon-user"> </span> Minha Conta</a>
-                    <a class="list-group-item"><span class="glyphicon glyphicon-log-out"> </span> Sair</a>            
+                    <a class="list-group-item" id="menuInicial" href="."><span class="glyphicon glyphicon-home"> </span> Inicial</a>
+                    <a class="list-group-item" id="menuAtendimento" href="?controller=Atendimento"><span class="glyphicon glyphicon-wrench"></span> Atendimento</a>
+                    <a class="list-group-item" id="menuSolicitacao" href="?controller=SolicitacaoAtendimento"><span class="glyphicon glyphicon-phone-alt"></span> Solicitação</a>
+                    <a class="list-group-item" id="menuMinhaConta" href="?controller=MinhaConta"><span class="glyphicon glyphicon-user"> </span> Minha Conta</a>
+                    <a class="list-group-item" id="menuSair" href="javascript:void(0)"><span class="glyphicon glyphicon-log-out"> </span> Sair</a>            
                 </ul>
             </div>
             <!--Fim do menu da página-->
             
             <div class="col-sm-9">            
-                <!--Aqui vai o conteúdo da página-->
-                
+                <!--Aqui vai o conteúdo da página-->                
+                <?php
+                  if(file_exists("View/$controlador/$controlador-body.php"))
+                    include_once "View/$controlador/$controlador-body.php";
+                  else if(file_exists("View/Inicial/inicialBody.php"))
+                    include_once "View/Inicial/inicialBody.php";
+                ?>
+
+<!--
                 <div class="panel panel-default">
                     <div class="panel-heading" style="background: #2f70a8; color: white; text-align: center; text-transform: uppercase; font-weight: bold">
                         Titulo do panel
                     </div>
                     
-                    <?php
-                      if(file_exists("View/$controlador/$controlador-body.php"))
-                        include_once "View/$controlador/$controlador-body.php";
-                    ?>
-
                     <div class="panel-body">
                         Painel conteudo
                     </div>                    
                 </div>
-            
+-->        
             </div>            
             
         </div>      
@@ -154,9 +157,9 @@ $controlador=filter_input(INPUT_GET,"controller");
     </div>
 
     <div id="footer">
-      <div class="container">
+      
         <p>Diretoria de Ensino de São José do Rio Preto. 2018.</p>
-      </div>
+      
     </div>
 
 
@@ -164,9 +167,15 @@ $controlador=filter_input(INPUT_GET,"controller");
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+    <script src="js/bootstrapModalFix.js"> </script>
+    <script type="text/javascript" src="js/Principal/PaginaScript.js"> </script>
+
     <?php
         if(file_exists("View/$controlador/$controlador-script.php"))
           include_once "View/$controlador/$controlador-script.php";
+        else if(file_exists("View/Inicial/inicialScript.php"))
+          include_once "View/Inicial/inicialScript.php";
+
     ?>
 
   </body>
