@@ -1,6 +1,8 @@
 var AtendimentoView = {
     tabela: null,
     validadorAdicionar: null,
+    idEdicaoTecnicoAtual: null,
+    idEdicaoSolicitacaoAtual: null,
     InicieComponentes: function(){
         AtendimentoView.tabela=criaDataTable("#tblAtendimentos");
 
@@ -118,7 +120,7 @@ var AtendimentoView = {
                     {"idtecnico" : $("#buscaTecnico").val(), "idnit": $("#buscaIdNit").val(), "idsituacao" : $("#buscaSituacao").val() },
                     function(retorno) {
                         alert("aqui");
-                        //console.log(retorno);
+                        console.log(retorno);
                         if(retorno.sucesso) {
                             AtendimentoView.tabela.clear().draw();                        
                             if(!retorno.dados.length)
@@ -246,13 +248,21 @@ var AtendimentoView = {
             );*/
         });
 
+        /****
+         * TODO - Botão de Editar Atendimento
+         * Chamar função de AtendimentoController.AlterarAtendimento()
+         */
+
     },
     CarregarAtendimento: function(idTecnico,idSolicitacao) {
         AtendimentoController.CarregarAtendimento(
             {"idtecnico":idTecnico,"idsolicitacao":idSolicitacao},
             function(retorno) {                
-                //console.log(retorno);
+                console.log(retorno);
                 if(retorno.sucesso) {
+                    AtendimentoView.idEdicaoSolicitacaoAtual=idSolicitacao;
+                    AtendimentoView.idEdicaoTecnicoAtual=idTecnico;
+                    $("#btnEditarReset").click();
                     $("#editarTecnico").val(retorno.dados.idTecnico);
                     document.getElementById("editarSolicitacaoAtendimento").value=retorno.dados.idSolicitacaoAtendimento;
                     $("#editarLocalDE").val(retorno.dados.idLocalNaDe);

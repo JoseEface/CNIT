@@ -203,7 +203,7 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <label for="editarTecnico" class="control-label">Técnico</label>                                    
-                                <select id="editarTecnico" name="editarTecnico" class="form-control">
+                                <select id="editarTecnico" name="editarTecnico" class="form-control" disabled="disabled">
                                     <option value="">Selecione...</option>
                                 </select>
                             </div>
@@ -269,10 +269,11 @@
                                 <span class="help-block" id="veditarDescricaoSolicitacao"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> 
                 </div>            
                 <div class="modal-footer" style="text-align: center;">
                     <button type="button" class="btn btn-success" id="btnEditarAtendimento">Salvar</button>
+                    <input type="reset" style="display: none" id="btnEditarReset" value="Limpar"/> 
                 </div>
 
             </div>

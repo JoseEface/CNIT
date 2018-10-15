@@ -127,5 +127,30 @@ var AtendimentoController = {
                 fxerro(req,erro,msg);
             }
         }); 
+    },
+    AlterarAtendimento: function(parametros,fxsucesso,fxerro) {
+        if(parametros.localde == null || parametros.situacao == null ||
+           parametros.datainicio == null || parametros.datafim == null ||
+           parametros.descricao == null || parametros.idtecnico == null ||
+           parametros.idsolicitacao == null)
+           throw new Error("AlterarAntendimento: Ausência de parâmetros");
+        $.ajax({
+            type: "post",
+            url: "Controller/Atendimento/AtendimentoController.php",
+            data: {"acao":"alterarAtendimento","idtecnico":parametros.idtecnico,
+                   "idsolicitacao":parametros.idsolicitacao, "localde":parametros.localde,
+                   "situacao":parametros.situacao,"datainicio":parametros.datainicio,
+                   "datafim":parametros.datafim,"descricao":parametros.descricao},
+            dataType: "json",
+            success: function(retorno) {
+                fxsucesso(retorno);
+            },
+            error: function(req,erro,msg) {
+                fxerro(req,erro, msg);
+            }
+        });
+        /***TODO: 
+         * solicitacao ajax -> AtendimentoDAO->editar()
+        */
     }
 }

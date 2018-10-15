@@ -98,6 +98,7 @@ try
             $retornoJson->setMensagem("Novo atendimento adicionado com sucesso.");
             $retornoJson->setDados(null);     
             break;
+
         case "carregarAtendimento":
             $idtecnico = filter_input(INPUT_POST,"idtecnico",\FILTER_VALIDATE_INT);
             $idsolicitacao = filter_input(INPUT_POST,"idsolicitacao",\FILTER_VALIDATE_INT);
@@ -115,6 +116,64 @@ try
             $retornoJson->setMensagem("Atendimento retornado com sucesso");
             if($atendimento != null)
                 $retornoJson->setDados($atendimento->prontoParaSerialize());
+            break;
+
+        case "alterarAtendimento":
+            $conexao=\Model\Connection\ConnectionFactory::getConnection();
+            $adao=new \Model\DAO\AtendimentoDAO($conexao);
+
+            $idtecnico = filter_input(INPUT_POST,"idtecnico",\FILTER_VALIDATE_INT);
+            $idsolicitacao = filter_input(INPUT_POST,"idsolicitacao",\FILTER_VALIDATE_INT);
+            $localde = filter_input(INPUT_POST,"localde",\FILTER_VALIDATE_INT);
+            $situacao = filter_input(INPUT_POST,"situacao",\FILTER_VALIDATE_INT);
+            $datainicio = filter_input(INPUT_POST,"datainicio",\FILTER_SANITIZE_STRING);
+            $datafim = filter_input(INPUT_POST,"datafim",\FILTER_SANITIZE_STRING);
+            $descricao = filter_input(INPUT_POST,"descricao",\FILTER_SANITIZE_STRING);
+
+            if(strlen($datanicio))
+                $datainicio=\DateTime::createFromFormat("d/m/Y",$datainicio,new DateTimeZone("America/Sao_Paulo"));
+            else
+                throw new \InvalidArgumentException("alterarAtendimento: falta a data de início.");
+            
+            if(strlen($datafim))
+                $datafim=\DateTime::createFromFormat("d/m/Y",$datafinalizado, new \DateTimeZone("America/Sao_Paulo"));
+            else
+                $datafim=null;
+            
+            if($idtecnico == null || $idtecnico === false)
+                throw new \InvalidArgumentException("alterarAtendimento: tecnico não especificado.");
+            if($idsolicitacao == null || $idsolicitacao === false)
+                throw new \InvalidArgumentException("alterarAtendimento: solicitação não especificada.");
+            if($localde == null || $localde === false)  
+                throw new \InvalidArgumentException("alterarAtendimento: falta o local da de.");
+            if($situacao == null || $situacao === false)
+                throw new \InvalidArgumentException("alterarAtendimento: falta a situação.");
+            if($descricao == null || $descricao === false)
+                throw new \InvalidArgumentException("alterarAtendimento: falta a descrição.");
+            if($datainicio === false)
+                throw new \InvalidArgumentException("alterarAtendimento: data de início em formato inválido.");
+            if($datafim === false)    
+                throw new \InvalidArgumentException("alterarAtendimento: data de fim em formato inválido.");
+            
+            $atendimento=new \Model\Atendimento();
+            $atendimento->setIdTecnico($idtecnico);
+            $atendimento->setIdSolicitacaoAtendimento($idsolicitacao);
+            $atendimento->setIdLocalNaDe($localde);
+            $atendimento->setIdSituacao($situacao);
+            $atendimento->setDataInicio($datainicio);
+            $atendimento->setDataFinalizado($datafim);
+            $atendimento->setDescricaoSolucao($descricao);
+
+            /**
+             * AtendimentoController - testar função DAO
+             */
+            if(!$adao->editar($atendimento))
+                throw new \RuntimeException("alterarAtendimento: edição não pode ser realizada no banco de dados.");
+            
+            $retornoJson->setSucesso(true);
+            $retornoJson->setMensagem("Atendimento alterado com sucesso !");
+            $retornoJson->setDados(null);
+
             break;
         default:
             throw new \InvalidArgumentException("adicionar: Comando inválido passado para o controlador");
