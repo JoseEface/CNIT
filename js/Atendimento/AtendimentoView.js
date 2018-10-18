@@ -1,10 +1,24 @@
 var AtendimentoView = {
     tabela: null,
+    validadorBusca: null,
     validadorAdicionar: null,
     validadorEditar: null,
     idEdicaoTecnicoAtual: null,
     idEdicaoSolicitacaoAtual: null,
     InicieComponentes: function(){
+        
+        AtendimentoView.validadorBusca=criarValidador("#formBuscar",{
+            buscaTecnico: {
+                require_from_group: [1, ".form-control"]
+            },
+            buscaIdNit: {
+                require_from_group: [1, ".form-control"]
+            },
+            buscaSituacao: {
+                require_from_group: [1, ".form-control"]
+            }
+        });
+
         AtendimentoView.tabela=criaDataTable("#tblAtendimentos");
 
         $("#menuAtendimento").addClass("extraActive");
@@ -124,10 +138,12 @@ var AtendimentoView = {
         );
     
         $("#btnProcurar").click(function(e){
-            e.preventDefault(); //alert("aqui");
-            if($("#buscaTecnico").val().length == 0 && $("#buscaIdNit").val().length == 0 && $("#buscaSituacao").val().length == 0)    
+            e.preventDefault(); 
+            AtendimentoView.validadorBusca.resetForm()         
+            /*if($("#buscaTecnico").val().length == 0 && $("#buscaIdNit").val().length == 0 && $("#buscaSituacao").val().length == 0)    
                 $("#vbuscaTecnico").html("Escolha ao menos um valor");
-            else
+            else*/
+            if($("#formBuscar").valid())
             {
                 $("#vbuscaTecnico").html("");
                 AtendimentoController.BuscaAtendimento(
@@ -275,7 +291,7 @@ var AtendimentoView = {
                 },
                 editarSituacao: {
                     required: true
-                },
+                }, 
                 editarDataInicio: {
                     required: true
                 },
@@ -290,10 +306,8 @@ var AtendimentoView = {
 
         $("#btnEditarAtendimento").click(function(e){
             e.preventDefault();   
-            AtendimentoView.validadorEditar.resetForm();
-            $("#formEditarAtendimento .help-block").html("");
             console.log(AtendimentoView.validadorEditar);
-            alert("teste");
+            //alert("teste");
             if($("#formEditarAtendimento").valid())
             {
                 
@@ -311,8 +325,14 @@ var AtendimentoView = {
                 if(retorno.sucesso) {
                     AtendimentoView.idEdicaoSolicitacaoAtual=idSolicitacao;
                     AtendimentoView.idEdicaoTecnicoAtual=idTecnico;
+
                     $("#btnEditarReset").click();
                     AtendimentoView.validadorEditar.resetForm();
+                    $("#formEditarAtendimento .help-block").html("");
+        
+                    /*
+                    $("#btnEditarReset").click();
+                    AtendimentoView.validadorEditar.resetForm();*/
 
                     $("#editarTecnico").val(retorno.dados.idTecnico);
                     document.getElementById("editarSolicitacaoAtendimento").value=retorno.dados.idSolicitacaoAtendimento;
