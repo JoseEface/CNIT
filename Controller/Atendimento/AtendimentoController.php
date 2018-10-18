@@ -76,7 +76,8 @@ try
                 throw new \InvalidArgumentException("adicionar: data de finalização inválida");
             if($descricaosolucao == null || !strlen($descricaosolucao) || $descricaosolucao === false)
                 throw new \InvalidArgumentException("adicionar: descrição solução inválida");
-
+            if($datainicio != null && $datafinalizado != null && $datafinalizado<$datainicio)
+                throw new \InvalidArgumentException("adicionar: data de finalização menor que a de início.");
             if(!$adao->verificaAtendimentoLivre($satendimento))
                 throw new \InvalidArgumentException("adicionar: a solicitação fornecida já está sendo atendida");
             
@@ -154,6 +155,8 @@ try
                 throw new \InvalidArgumentException("alterarAtendimento: data de início em formato inválido.");
             if($datafim === false)    
                 throw new \InvalidArgumentException("alterarAtendimento: data de fim em formato inválido.");
+            if($datainicio != null && $datafim != null && $datafim<$datainicio)
+                throw new \InvalidArgumentException("alterarAtendimento: data de fim menor que a de inicio");
             
             $atendimento=new \Model\Atendimento();
             $atendimento->setIdTecnico($idtecnico);

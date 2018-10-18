@@ -6,7 +6,7 @@
 
 <script>
     var addflag=false;
-    var edflag=false;
+    var edflag=false; 
 
     $(document).ready(function(){
         

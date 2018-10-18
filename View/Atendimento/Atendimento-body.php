@@ -7,7 +7,7 @@
     <div class="panel-body">
 
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12"> 
                 <!--
                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalAdicionar" id="btnNovo"><span class="glyphicon glyphicon-plus"></span> Novo</button>
                 -->
@@ -110,6 +110,7 @@
                                 <label for="novaSolicitacaoAtendimento">Solicitação </label>
                                 <select id="novaSolicitacaoAtendimento" name="novaSolicitacaoAtendimento" class="form-control">
                                     <option value="">Selecione...</option>
+                                    <option value="1">Bananan</option>
                                 </select>
                             </div>
                         </div>
@@ -118,7 +119,7 @@
                                 <span class="help-block" id="vnovoTecnico"></span>
                             </div>
                             <div class="col-sm-8">
-                                <span class="help-block" id="vnovoSolicitacaoAtendimento"></span>
+                                <span class="help-block" id="vnovaSolicitacaoAtendimento"></span>
                             </div>
                         </div>
                     </div>
@@ -188,7 +189,7 @@
 <!-- MODAL DE EDIÇÃO DE ATENDIMENTO -->
 <div class="modal fade" id="modalEditar">
     <div class="modal-dialog">
-        <form method="post" action="">
+        <form method="post" id="formEditarAtendimento"action="">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                 
@@ -237,7 +238,7 @@
                                 <input type="text" id="editarDataInicio" name="editarDataInicio" class="form-control" value="" readonly/>
                             </div>
                             <div class="col-sm-3">
-                                <label for="editarDataInicio">Data Finalização </label>
+                                <label for="editarDataFinalizacao">Data Finalização </label>
                                 <input type="text" id="editarDataFinalizacao" name="editarDataFinalizacao" class="form-control" value="" readonly/>
                             </div>
                         </div>
@@ -252,7 +253,7 @@
                                 <span class="help-block" id="veditarDataInicio"></span>
                             </div>
                             <div class="col-sm-3">
-                                <span class="help-block" id="veditarDataFinalizado"></span>
+                                <span class="help-block" id="veditarDataFinalizacao"></span>
                             </div>
                         </div>
                     </div>
@@ -266,13 +267,13 @@
                         </div> 
                         <div class="row">
                             <div class="col-sm-12">
-                                <span class="help-block" id="veditarDescricaoSolicitacao"></span>
+                                <span class="help-block" id="veditarDescricaoSolucao"></span>
                             </div>
                         </div>
                     </div> 
                 </div>            
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-success" id="btnEditarAtendimento">Salvar</button>
+                    <button type="button" class="btn btn-success" id="btnEditarAtendimento" onclick="javascript:alert('lalalalla')">Salvar</button>
                     <input type="reset" style="display: none" id="btnEditarReset" value="Limpar"/> 
                 </div>
 

@@ -86,7 +86,7 @@ var AtendimentoController = {
             throw new Error("Ausência de argumentos para BuscaAtendimento");
         }
         $.ajax({
-            type: "post",
+            type: "post", 
             url: "Controller/Atendimento/AtendimentoController.php",
             data: { "acao" : "buscaAtendimento", "idtecnico" : parametros.idtecnico, "idnit": parametros.idnit, "idsituacao" : parametros.idsituacao },
             dataType: "json",

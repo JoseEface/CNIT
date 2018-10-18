@@ -166,7 +166,7 @@ class AtendimentoDAO
 
         $comando->closeCursor();
 
-        return ($quantidade==0);
+        return ($quantidade==0); 
     }
 
     public function editar(\Model\Atendimento $atendimento)
@@ -175,7 +175,7 @@ class AtendimentoDAO
                                   idSituacao=:idsituacao, dataFinalizado=:dataFinalizado, dataInicio=:datainicio
                                   where idTecnico=:idtecnico and idSolicitacaoAtendiment=:idSolicitacaoAtendimento";
         $comando = $this->conexao->prepare($alteracao);                                
-        $comando->bindValue(":descricaosolucao",$atendimento->getDescricaoSolucao()),\PDO::PARAM_STR);
+        $comando->bindValue(":descricaosolucao",$atendimento->getDescricaoSolucao(),\PDO::PARAM_STR);
         $comando->bindValue(":idlocalde",$atendimento->getIdLocalNaDe(),\PDO::PARAM_INT);
         $comando->bindValue(":idsituacao",$atendimento->getIdSituacao(),\PDO::PARAM_INT);
         $comando->bindValue(":dataFinalizado",($atendimento->getDataFinalizado() == null)?null:$atendimento->getDataFinalizado()->format("Y-m-d"),\PDO::PARAM_STR);

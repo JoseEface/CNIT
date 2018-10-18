@@ -20,13 +20,16 @@ echo filter_var("03/04/2018",\FILTER_SANITIZE_STRING);
 echo "testando";
 $datapadrao=new \DateTime("02/03/2018",new \DateTimeZone("America/Sao_Paulo"));
 $datapadrao= \DateTime::createFromFormat("Y-m-d H:i:s", '2009-02-15 00:00:00', new \DateTimeZone("America/Sao_Paulo"));
-$datapadrao= \DateTime::createFromFormat("d/m/Y","02/02/2018", new \DateTimeZone("America/Sao_Paulo"));
+$datapadraoB= \DateTime::createFromFormat("d/m/Y","02/02/2018", new \DateTimeZone("America/Sao_Paulo"));
 echo $datapadrao->format("d/m/Y");
+
+if($datapadrao < $datapadraoB)
+    echo "Data padrao é mairo que datapadraoB";
 
 echo "LALALLALALALALALALALA";
 
-$teste = new \DateTime("adfasfdsdaf",new \DateTimeZone("America/Sao_Paulo"));
-print_r($teste);
+/*$teste = new \DateTime("adfasfdsdaf",new \DateTimeZone("America/Sao_Paulo"));
+print_r($teste);*/
 
 /*
 //$conexao = \Model\Connection\ConnectionFactory::getConnection();

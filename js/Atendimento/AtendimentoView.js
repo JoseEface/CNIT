@@ -1,6 +1,7 @@
 var AtendimentoView = {
     tabela: null,
     validadorAdicionar: null,
+    validadorEditar: null,
     idEdicaoTecnicoAtual: null,
     idEdicaoSolicitacaoAtual: null,
     InicieComponentes: function(){
@@ -23,7 +24,20 @@ var AtendimentoView = {
                                                }
         });
     
-        $("#editarDataInicio").datepicker({changeYear: true});
+        $("#editarDataInicio").datepicker({changeYear: true,
+                                           onSelect: function(txtdata) {
+                                               AtendimentoView.validadorEditar.element("#editarDataInicio");
+                                               AtendimentoView.validadorEditar.element("#editarDataFinalizacao");
+                                           }
+        });
+
+        $("#editarDataFinalizacao").datepicker({changeYear: true,
+                                                onSelect: function(txtdata) {
+                                                    AtendimentoView.validadorEditar.element("#editarDataFinalizacao");
+                                                }
+        });
+
+
         $("#editarDataFinalizacao").datepicker({changeYear: true});
         $("#novaDataInicio").datepicker("setDate",new Date());
     
@@ -110,7 +124,7 @@ var AtendimentoView = {
         );
     
         $("#btnProcurar").click(function(e){
-            e.preventDefault();
+            e.preventDefault(); //alert("aqui");
             if($("#buscaTecnico").val().length == 0 && $("#buscaIdNit").val().length == 0 && $("#buscaSituacao").val().length == 0)    
                 $("#vbuscaTecnico").html("Escolha ao menos um valor");
             else
@@ -119,8 +133,8 @@ var AtendimentoView = {
                 AtendimentoController.BuscaAtendimento(
                     {"idtecnico" : $("#buscaTecnico").val(), "idnit": $("#buscaIdNit").val(), "idsituacao" : $("#buscaSituacao").val() },
                     function(retorno) {
-                        alert("aqui");
-                        console.log(retorno);
+                        //alert("aqui");
+                        //console.log(retorno);
                         if(retorno.sucesso) {
                             AtendimentoView.tabela.clear().draw();                        
                             if(!retorno.dados.length)
@@ -203,7 +217,7 @@ var AtendimentoView = {
         ); 
     
         $("#btnAdicionarAtendimento").click(function(e){
-            e.preventDefault();
+            e.preventDefault();            
             if($("#formAdicionar").valid())
             {
                 AtendimentoController.AdicionarAtendimento(
@@ -235,7 +249,9 @@ var AtendimentoView = {
 
         $("#btnNovo").click(function(e){
             e.preventDefault();
-            $("#modalAdicionar").modal();
+            $("#formAdicionar .help-block").html("");
+            AtendimentoView.validadorAdicionar.resetForm();
+            $("#modalAdicionar").modal();            
             /*
             AtendimentoController.QuantidadeSolicitacaoLivre(
                 function(retorno)  {                               
@@ -252,6 +268,39 @@ var AtendimentoView = {
          * TODO - Botão de Editar Atendimento
          * Chamar função de AtendimentoController.AlterarAtendimento()
          */
+        AtendimentoView.validadorEditar=criarValidador("#formEditarAtendimento",
+            {
+                editarLocalDE: {
+                    required: true
+                },
+                editarSituacao: {
+                    required: true
+                },
+                editarDataInicio: {
+                    required: true
+                },
+                editarDataFinalizacao: {
+                    dataFim: { dataFim: { dataInicial: "#editarDataInicio" }   }
+                },
+                editarDescricaoSolucao: {
+                    required: true
+                }
+            } 
+        );
+
+        $("#btnEditarAtendimento").click(function(e){
+            e.preventDefault();   
+            AtendimentoView.validadorEditar.resetForm();
+            $("#formEditarAtendimento .help-block").html("");
+            console.log(AtendimentoView.validadorEditar);
+            alert("teste");
+            if($("#formEditarAtendimento").valid())
+            {
+                
+            }
+            else
+                alert("Form inválido");
+        });
 
     },
     CarregarAtendimento: function(idTecnico,idSolicitacao) {
@@ -263,6 +312,8 @@ var AtendimentoView = {
                     AtendimentoView.idEdicaoSolicitacaoAtual=idSolicitacao;
                     AtendimentoView.idEdicaoTecnicoAtual=idTecnico;
                     $("#btnEditarReset").click();
+                    AtendimentoView.validadorEditar.resetForm();
+
                     $("#editarTecnico").val(retorno.dados.idTecnico);
                     document.getElementById("editarSolicitacaoAtendimento").value=retorno.dados.idSolicitacaoAtendimento;
                     $("#editarLocalDE").val(retorno.dados.idLocalNaDe);
