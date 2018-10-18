@@ -139,7 +139,7 @@ var AtendimentoView = {
     
         $("#btnProcurar").click(function(e){
             e.preventDefault(); 
-            AtendimentoView.validadorBusca.resetForm()         
+            AtendimentoView.validadorBusca.resetForm();         
             /*if($("#buscaTecnico").val().length == 0 && $("#buscaIdNit").val().length == 0 && $("#buscaSituacao").val().length == 0)    
                 $("#vbuscaTecnico").html("Escolha ao menos um valor");
             else*/
@@ -310,7 +310,15 @@ var AtendimentoView = {
             //alert("teste");
             if($("#formEditarAtendimento").valid())
             {
-                
+                ///TODO 18/10 - Chamar função para editar e verificar se funciona
+
+                /*
+                AtendimentoController.AlterarAtendimento(
+                    {localde:$("#editarLocalDE").val(),situacao:$("#editarSituacao").val(),datainicio:$("#editarDataInicio"),
+                     datafim,descricao,idtecnico,
+                     idsolicitacao}
+
+                );*/
             }
             else
                 alert("Form inválido");
