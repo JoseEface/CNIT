@@ -119,7 +119,7 @@ try
                 $retornoJson->setDados($atendimento->prontoParaSerialize());
             break;
 
-        case "alterarAtendimento":
+        case "alterarAtendimento":    
             $conexao=\Model\Connection\ConnectionFactory::getConnection();
             $adao=new \Model\DAO\AtendimentoDAO($conexao);
 
@@ -167,12 +167,9 @@ try
             $atendimento->setDataFinalizado($datafim);
             $atendimento->setDescricaoSolucao($descricao);
 
-            /**
-             * AtendimentoController - testar função DAO
-             */
             if(!$adao->editar($atendimento))
                 throw new \RuntimeException("alterarAtendimento: edição não pode ser realizada no banco de dados.");
-            
+                  
             $retornoJson->setSucesso(true);
             $retornoJson->setMensagem("Atendimento alterado com sucesso !");
             $retornoJson->setDados(null);

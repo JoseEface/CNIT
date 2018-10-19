@@ -307,18 +307,23 @@ var AtendimentoView = {
         $("#btnEditarAtendimento").click(function(e){
             e.preventDefault();   
             console.log(AtendimentoView.validadorEditar);
-            //alert("teste");
+            alert("Você clicou");
             if($("#formEditarAtendimento").valid())
             {
-                ///TODO 18/10 - Chamar função para editar e verificar se funciona
-
-                /*
+                //alert("teste");
+                ///TODO 18/10 - Chamar função para editar e verificar se funciona                
                 AtendimentoController.AlterarAtendimento(
-                    {localde:$("#editarLocalDE").val(),situacao:$("#editarSituacao").val(),datainicio:$("#editarDataInicio"),
-                     datafim,descricao,idtecnico,
-                     idsolicitacao}
-
-                );*/
+                    {localde:$("#editarLocalDE").val(),situacao:$("#editarSituacao").val(),datainicio:$("#editarDataInicio").val(),
+                     datafim: $("#editarDataFinalizacao").val(),descricao: $("#editarDescricaoSolucao").val(),idtecnico: AtendimentoView.idEdicaoTecnicoAtual,
+                     idsolicitacao: AtendimentoView.idEdicaoSolicitacaoAtual},
+                     function(retorno) {
+                         console.log(retorno);
+                         alert("Dados alterados com sucesso");
+                     },
+                     function(req,erro,msg) {
+                         console.log(req);console.log(erro); console.log(msg);
+                     }
+                ); 
             }
             else
                 alert("Form inválido");

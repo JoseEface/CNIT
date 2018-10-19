@@ -129,6 +129,7 @@ var AtendimentoController = {
         }); 
     },
     AlterarAtendimento: function(parametros,fxsucesso,fxerro) {
+        alert("AlterarAtendimento");
         if(parametros.localde == null || parametros.situacao == null ||
            parametros.datainicio == null || parametros.datafim == null ||
            parametros.descricao == null || parametros.idtecnico == null ||
@@ -142,10 +143,10 @@ var AtendimentoController = {
                    "situacao":parametros.situacao,"datainicio":parametros.datainicio,
                    "datafim":parametros.datafim,"descricao":parametros.descricao},
             dataType: "json",
-            success: function(retorno) {
+            success: function(retorno) {                
                 fxsucesso(retorno);
             },
-            error: function(req,erro,msg) {
+            error: function(req,erro,msg) {                
                 fxerro(req,erro, msg);
             }
         });

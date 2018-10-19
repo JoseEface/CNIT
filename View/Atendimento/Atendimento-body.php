@@ -22,17 +22,17 @@
 
                     <div class="col-sm-4">
                         <label for="buscaTecnico">Técnico</label>
-                        <select id="buscaTecnico" name="buscaTecnico" class="form-control .busca-group">
+                        <select id="buscaTecnico" name="buscaTecnico" class="form-control busca-group">
                             <option value="">Selecione...</select>                            
                         </select>
                     </div>
                     <div class="col-sm-4"> 
                         <label for="buscaIdNit">Id NIT</label>
-                        <input type="text" id="buscaIdNit" name="buscaIdNit" class="form-control .busca-group" placeholder="Id NIT" />
+                        <input type="text" id="buscaIdNit" name="buscaIdNit" class="form-control busca-group" placeholder="Id NIT" />
                     </div>
                     <div class="col-sm-4"> 
                         <label for="buscaSituacao">Situação</label>
-                        <select id="buscaSituacao" name="buscaSituacao" class="form-control .busca-group">
+                        <select id="buscaSituacao" name="buscaSituacao" class="form-control busca-group">
                             <option value="">Selecione...</option>
                         </select>
                     </div>
@@ -273,7 +273,7 @@
                     </div> 
                 </div>            
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-success" id="btnEditarAtendimento" onclick="javascript:alert('lalalalla')">Salvar</button>
+                    <button type="button" class="btn btn-success" id="btnEditarAtendimento">Salvar</button>
                     <input type="reset" style="display: none" id="btnEditarReset" value="Limpar"/> 
                 </div>
 
