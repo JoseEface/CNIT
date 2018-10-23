@@ -1,6 +1,6 @@
 var SolicitacaoAtendimentoController = {
     AdicionaSolicitacao: function(parametros, fxsucesso,fxerro) {
-        if(parametros.idsolicitacao == null || parametros.dataabertura == null ||
+        if(parametros.dataabertura == null ||
            parametros.idnit == null || parametros.descricaoproblema == null ||
            parametros.nomeentregador == null || (parametros.idescola == null && parametros.iddonoalternativo == null))
             throw new Error("Ausência de parâmetros para o controlador - AdicionaSolicitação");            
@@ -85,7 +85,7 @@ var SolicitacaoAtendimentoController = {
     {
         if(parametros.idsolicitacao == null || parametros.dataAbertura == null ||
            parametros.idnit == null || parametros.descricaoproblema == null ||
-           parametros.idescola == null || parametros.iddonoalternativo == null)
+           (parametros.idescola == null && parametros.iddonoalternativo == null) )
            throw new Error("Ausência de parâmetros");
         
         $.ajax({

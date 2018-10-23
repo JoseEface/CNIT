@@ -171,10 +171,29 @@ var SolicitacaoAtendimentoView = {
 
         $("#btnSalvarSolicitacao").click(function(){            
             if($("#formAdicionar").valid()) {
-                alert("Foi válido");
+                SolicitacaoAtendimentoController.AdicionaSolicitacao(
+                    {
+                        dataabertura: $("#adddataSolicitacao").val(), idnit: $("#addidnit").val(),
+                        descricaoproblema: $("#adddescricaoProblema").val(), nomeentregador: $("#addnomeEntregador").val(),
+                        idescola: $("#addescola").val(), iddonoalternativo: $("#iddonoalternativo").val()
+                    },
+                    function(retorno) {
+                        if(retorno.sucesso) {
+                            alert("Solicitação adicionada com sucesso !");
+                            $("#modalAdicionar").modal("hide");
+                        }
+                        else    
+                        {
+                            alert("Falha ao cadastrar dados no servidor.");
+                            console.log(retorno);
+                        }
+                    },
+                    function(req,erro,msg) {
+                        console.log(req); console.log(erro); console.log(msg);
+                        alert("Falha no servidor");
+                    }
+                );
             }
-            else    
-                alert("É inválido");
         });
 
         $("#btnNovo").click(function(e){

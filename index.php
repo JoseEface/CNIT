@@ -15,7 +15,7 @@ $controlador=filter_input(INPUT_GET,"controller");
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
     <link rel="stylesheet" href="css/bootfixmodal.css" />
-
+    <link rel="shortcut icon" href="https://image.flaticon.com/icons/png/128/9/9156.png" />
     <style type="text/css">
 
       /* Sticky footer styles

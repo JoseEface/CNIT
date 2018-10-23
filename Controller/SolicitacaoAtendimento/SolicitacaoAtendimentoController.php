@@ -35,7 +35,7 @@ try
             $conexao = null;
             $sadao = null;
 
-            $idsolicitacao=filter_input(INPUT_POST,"idsolicitacao",\FILTER_VALIDATE_INT);
+            //$idsolicitacao=filter_input(INPUT_POST,"idsolicitacao",\FILTER_VALIDATE_INT);
             $dataabertura=filter_input(INPUT_POST,"dataabertura",\FILTER_SANITIZE_STRING);
             $idnit=filter_input(INPUT_POST,"idnit",\FILTER_SANITIZE_STRING);
             $descricaoproblema=filter_input(INPUT_POST,"descricaoproblema",\FILTER_SANITIZE_STRING);
@@ -43,8 +43,8 @@ try
             $iddonoalternativo=filter_input(INPUT_POST,"iddonoalternativo",\FILTER_VALIDATE_INT);
             $nomeentregador=filter_input(INPUT_POST,"nomeentregador",\FILTER_SANITIZE_STRING);
 
-            if(!is_null($idsolicitacao) && !empty($idsolicitacao) && $idsolicitacao === false )
-                throw new InvalidArgumentException("NovaSolicitacao: Id Solicitacao é inválida");
+            /*if(!is_null($idsolicitacao) && !empty($idsolicitacao) && $idsolicitacao === false )
+                throw new InvalidArgumentException("NovaSolicitacao: Id Solicitacao é inválida");*/
             if(!is_null($idnit) && !empty($idnit) && $idnit === false)
                 throw new InvalidArgumentException("NovaSolicitacao: Id nit inválida");
             if(!is_null($descricaoproblema) || empty($descricaoproblema) && $descricaoproblema === false)
@@ -73,7 +73,7 @@ try
             $sadao = new \Model\DAO\SolicitacaoAtendimentoDAO($conexao);
             
             $novasolictacao=new \Model\SolicitacaoAtendimento();            
-            $novasolictacao->setIdSolicitacaoAtendimento($idsolicitacao);
+        $novasolictacao->setIdSolicitacaoAtendimento(/*$idsolicitacao*/0);
             $novasolictacao->setDataAbertura($dataabertura->format("Y-m-d"));
             $novasolictacao->setIdNit($idnit);
             $novasolictacao->setDescricaoProblema($descricaoproblema);
