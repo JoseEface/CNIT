@@ -6,17 +6,17 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-12">
-                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalAdicionar" id="btnNovo"><span class="glyphicon glyphicon-plus"></span> Novo</button>
+                <button type="button" class="btn btn-primary btn-sm" id="btnNovo"><span class="glyphicon glyphicon-plus"></span> Novo</button>
             </div>
         </div>
         <br/>
-        <form method="post" action="">
+        <form method="post" id="formBuscar" action="">
             <input type="hidden" name="idSolicitacao" value="0" id="idSolicitacao"/>
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm-3">
                         <label for="dataSolicitacao" class="control-label">Data:</label>                                    
-                        <input class="form-control col-sm-3 datepicker" type="text" name="dataSolicitacao" id="dataSolicitacao" readonly="readonly"/>
+                        <input class="nominimoum form-control col-sm-3 datepicker" type="text" name="dataSolicitacao" id="dataSolicitacao" readonly="readonly"/>
                     </div>
                     <div class="col-sm-5">
                         <!--
@@ -24,13 +24,24 @@
                         <input type="text" class="form-control" type="text" id="donoBuscaSolicitacao" onclick="donoSolicitado(null)" readonly="readonly"/>
                         -->
                         <label for="escola">Escola </label>
-                        <select id="escola" name="escola" class="form-control">
+                        <select id="escola" name="escola" class="nominimoum form-control">
                             <option value="">Selecione...</option>
                         </select>                
                     </div>
                     <div class="col-sm-4">
                         <label for="idnit">Id NIT</label>
-                        <input type="text" id="idnit" name="idnit" class="form-control" />
+                        <input type="text" id="idnit" name="idnit" class="nominimoum form-control" />
+                    </div>
+                </div>
+                <div class="row">                
+                    <div class="col-sm-3">
+                        <span class="help-block" id="vdataSolicitacao"></span>
+                    </div>
+                    <div class="col-sm-5">
+                        <span class="help-block" id="vescola"></span>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="help-block" id="vidnit"></span>
                     </div>
                 </div>
             </div>
@@ -54,7 +65,7 @@
     </div>   
 
     <div class="panel-footer" style="text-align: center;">
-        <button type="button" class="btn btn-success">Procurar</button>
+        <button type="button" id="btnProcurar" class="btn btn-success">Procurar</button>
     </div>
 </div>
 
@@ -78,7 +89,8 @@
                 <tr>
                     <th>Data</th>
                     <th>Escola</th>
-                    <th>Dono</th>                    
+                    <th>Dono</th>        
+                    <th>Operação</th>            
                 </tr>
             </thead>
             <tbody>
@@ -89,7 +101,7 @@
 
 <div class="modal fade" id="modalAdicionar">
     <div class="modal-dialog">
-        <form method="post" action="">
+        <form method="post" id="formAdicionar" action="">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                 
@@ -108,7 +120,7 @@
                             </div>
                             <div class="col-sm-5">
                                 <label for="adddonoAlternativo">Outro dono </label>
-                                <input type="text" id="adddonoAlternativo" name="adddonoAlternativo" class="form-control" type="text" onclick="donoSolicitado('modalAdicionar')" readonly="readonly"/>
+                                <input type="text" id="adddonoAlternativo" name="adddonoAlternativo" class="aomenosum form-control" type="text" onclick="SolicitacaoAtendimentoView.DonoSolicitado('modalAdicionar')" readonly="readonly"/>
                             </div>
                             <div class="col-sm-4">
                                 <label for="addidnit">Id NIT</label>
@@ -117,12 +129,13 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-3">                                
-                                <span class="help-block" id="vaddSolicitacao">Campo obrigatório</span>
+                                <span class="help-block" id="vadddataSolicitacao"></span>
                             </div>
                             <div class="col-sm-5">
+                                <span class="help-block" id="vadddonoAlternativo"></span>
                             </div>
                             <div class="col-sm-4">
-                                <span class="help-block" id="vaddSolicitacao">Campo obrigatório</span>
+                                <span class="help-block" id="vaddidnit"></span>
                             </div>
                         </div>
 
@@ -131,7 +144,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <label for="addescola">Escola </label>
-                                <select id="addescola" name="addescola" class="form-control">
+                                <select id="addescola" name="addescola" class="aomenosum form-control">
                                     <option value="">Selecione...</option>
                                 </select>                
                             </div>
@@ -142,10 +155,10 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <span class="help-block" id="vaddescola">Validação</span>
+                                <span class="help-block" id="vaddescola"></span>
                             </div>
                             <div class="col-sm-6">
-                                <span class="help-block" id="vaddnomeEntregador">Validação</span>
+                                <span class="help-block" id="vaddnomeEntregador"></span>
                             </div>
                         </div>
                     </div>
@@ -153,16 +166,16 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <label for="adddescricaoProblema">Problema</label>
-                                <textarea id="adddescricaoProblema" name="adddescricaoProblema" class="form-control" style="resize: vertical"> </textarea>
+                                <textarea id="adddescricaoProblema" name="adddescricaoProblema" class="form-control" style="resize: vertical"></textarea>
                             </div>
                             <div class="col-sm-12">
-                                <span class="help-block" id="vadddescricaoProblema">Campo obrigatório</span>
+                                <span class="help-block" id="vadddescricaoProblema"></span>
                             </div>
                         </div>
                     </div>
                 </div>            
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-success">Salvar</button>
+                    <button type="button" id="btnSalvarSolicitacao" class="btn btn-success">Salvar</button>
                 </div>
 
             </div>
@@ -172,7 +185,7 @@
 
 <div class="modal fade" id="modalEdicao">
     <div class="modal-dialog">
-        <form method="post" action="">
+        <form method="post" id="formEditar" action="">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                 
@@ -191,7 +204,7 @@
                             </div>
                             <div class="col-sm-5">
                                 <label for="eddonoAlternativo">Outro dono </label>
-                                <input type="text" id="eddonoAlternativo" name="eddonoAlternativo" class="form-control" type="text" onclick="donoSolicitado('modalEdicao')" readonly="readonly"/>
+                                <input type="text" id="eddonoAlternativo" name="eddonoAlternativo" class="form-control" type="text" onclick="SolicitacaoAtendimentoView.DonoSolicitado('modalEdicao')" readonly="readonly"/>
                             </div>
                             <div class="col-sm-4">
                                 <label for="edidnit">Id NIT</label>
@@ -235,18 +248,18 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <label for="eddescricaoProblema">Problema</label>
-                                <textarea id="eddescricaoProblema" name="eddescricaoProblema" class="form-control" style="resize: vertical"> </textarea>
+                                <textarea id="eddescricaoProblema" name="eddescricaoProblema" class="form-control" style="resize: vertical"></textarea>
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="col-sm-12">
-                                <span class="help-block" id="veddescricaoProblema">Campo obrigatório</span>
+                                <span class="help-block" id="veddescricaoProblema"></span>
                             </div>
                         </div>
                     </div>
                 </div>            
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-success">Salvar</button>
+                    <button type="button" class="btn btn-success" id="btnEditarSalvar">Salvar</button>
                 </div>
 
             </div>

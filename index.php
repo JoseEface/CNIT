@@ -100,7 +100,7 @@ $controlador=filter_input(INPUT_GET,"controller");
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuário<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#"> <span class="glyphicon glyphicon-user"></span> Perfil  </a></li>
+                            <li><a href="?controller=MinhaConta"> <span class="glyphicon glyphicon-user"></span> Perfil  </a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="javascript:void(0)" id="mnpopSair"> <span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
                         </ul>

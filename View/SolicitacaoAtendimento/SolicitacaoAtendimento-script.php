@@ -2,9 +2,20 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap.min.js"> </script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/localization/messages_pt_BR.min.js"></script>
+
+
 <script src="js/datepicker-BR.js"> </script>
+<script src="js/PluginUtil.js"> </script>
+<script type="text/javascript" src="js/SolicitacaoAtendimento/SolicitacaoAtendimentoView.js"> </script>
+<script type="text/javascript" src="js/Escola/EscolaCont.js"> </script>
+
 
 <script>
+    SolicitacaoAtendimentoView.InicieComponentes();
+/*
     var addflag=false;
     var edflag=false; 
 
@@ -51,6 +62,7 @@
 
         $("#modalBuscarDono").modal();
     }
+    */
 /*
   $(document).ready(function(){
     $('.modal').on('show.bs.modal', function () {

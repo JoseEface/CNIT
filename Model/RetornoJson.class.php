@@ -67,7 +67,7 @@ class RetornoJson
         return $this;
     }
 
-    public static function prepareArraySerialize($novo)
+    public static function prepareArraySerialize(&$novo)
     {
         $lista=array();
         if(is_array($novo))

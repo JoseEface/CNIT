@@ -4,6 +4,8 @@ function criarValidador(idjqFormulario, regras)
     var validador=$(idjqFormulario).validate({
         rules: regras,
         errorPlacement: function(error,elemento) {
+            /*console.log(error); console.log(elemento);
+            console.log("#v"+$(elemento).attr("id")); console.log(error.text());*/
             $("#v"+$(elemento).attr("id")).html(error.text());
         },
         success: function(label, element) {

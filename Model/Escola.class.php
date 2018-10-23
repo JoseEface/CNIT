@@ -188,6 +188,11 @@ class Escola
 
         return $this;
     }
+
+    public function prontoParaSerialize()
+    {
+        return get_object_vars($this);
+    }
 }
 
 ?>

@@ -3,6 +3,7 @@
 namespace Model\DAO;
 
 include_once dirname(__FILE__)."/../SolicitacaoAtendimento.class.php";
+include_once dirname(__FILE__)."/../BuscaSolicitacaoAtendimento.class.php";
 
 class SolicitacaoAtendimentoDAO 
 {
@@ -74,6 +75,105 @@ class SolicitacaoAtendimentoDAO
         return $quantidade;
     }
     
+    public function adicionar(\Model\SolicitacaoAtendimento $solicitacao)
+    {
+        $insere="insert into solicitacaoatendimento values(0,:dataabertura,:idnit,:descricaoproblema,
+                                                             :idescola,:iddonoalternativo,:nomeentregador)";
+        $comando=$this->conexao->prepare($insere);
+        $comando->bindValue(":dataabertura",$solicitacao->getDataAbertura()->format("Y-m-d"),\PDO::PARAM_STR);
+        $comando->bindValue(":idnit",$solicitacao->getIdNit(),\PDO::PARAM_INT);
+        $comando->bindValue(":descricaoproblema",$solicitacao->getDescricaoProblema(),\PDO::PARAM_STR);
+        $comando->bindValue(":idescola",$solicitacao->getIdEscola(),\PDO::PARAM_INT);
+        $comando->bindValue(":iddonoalternativo",$solicitacao->getIdDonoAlternativo(),\PDO::PARAM_INT);
+        $comando->bindValue(":nomeentregador",$solicitacao->getNomeEntregador(),\PDO::PARAM_STR);
+
+        if(!$comando->execute())
+            throw new \RuntimeException("Falha ao executar comando no banco de dados ".$comando->errorInfo());
+        
+        return true; //execute() retorna true em caso de sucesso e false em caso de erro
+    }
+
+    public function remover($idsolicitacao)
+    {
+        $remover="delete from solicitacaoatendimento where iSolicitacaoAtendimento=:idsolicitacao";
+        $comando=$this->conexao->prepare($remover);
+        
+        if(!$comando->execute())
+            throw new \RuntimeException("Falha ao executar comando no banco de dados ".$comando->errorInfo());
+        
+        return true;
+    }
+
+    public function buscar($idescola, $idnit,\DateTime $dataabertura)
+    {
+        $busca = "select idSolicitacaoAtendimento,escola.nome as escola, donoalternativo.nome as donoalternativo,
+                         solicitacaoatendimento.idEscola as idEscola, solicitacaoatendimento.idDonoAlternativo as idDonoAlternativo 
+                         from solicitacaoatendimento
+                         left join escola on solicitacaoatendimento.idEscola = escola.idEscola
+                         left join donoalternativo on solicitacaoatendimento.idDonoAlternativo=solicitacaoatendimento.idDonoAlternativo
+                         where 1=1;";
+        $listaResultado=array();      
+        $buscaatendimento=null;  
+
+        if($idescola != null)
+            $busca.=" and idEscola=:idescola";
+        if($idnit != null)
+            $busca.=" and idnit=:idnit";
+        if($dataabertura != null)
+            $busca.=" and dataAbertura=:dataabertura";
+
+        $comando = $this->conexao->prepare($busca);
+
+        if($idescola != null)
+            $comando->bindValue(":idescola",$idescola,\PDO::PARAM_INT);
+        if($idnit != null)
+            $comando->bindValue(":idnit",$idnit,\PDO::PARAM_STR);
+        if($dataabertura != null)
+            $comando->bindValue(":dataabertura",$dataabertura->format("Y-m-d"),\PDO::PARAM_STR);
+        
+        if($comando->execute())
+        {
+            if($comando->rowCount())
+            {
+                /*while($linha = $comando->fetch(\PDO::FETCH_ASSOC))
+                    $listaResultado[]=$this->fillObject($linha);*/
+                while($linha = $comando->fetch(\PDO::FETCH_ASSOC))
+                {
+                    $buscaatendimento=new \Model\BuscaAtendimento();
+                    $buscaatendimento->setIdSolicitacaoAtendimento($linha["idSolicitacaoAtendimento"]);
+                    $buscaatendimento->setEscola($linha["escola"]);
+                    $buscaatendimento->setDonoAlternativo($linha["donoalternativo"]);
+                    $listaResultado[]=$buscaatendimento;
+                }
+            }
+        }
+        else    
+            throw new \RuntimeException("Buscando solicitaçãoes: Falha ao enviar comando ao banco de dados - ".$comando->errorInfo());
+        
+        return $listaResultado;
+    }
+
+    public function retornaUnico($idsolicitacao)
+    {
+        $consulta = "select * from solicitacaoatendimento where idSolicitacaoAtendimento=:idsolicitacao";
+        $comando = $this->conexao->prepare($consulta);
+        $comando->bindValue(":idsolicitacao",$idsolicitacao,\PDO::PARAM_INT);
+        $solicitacaoAtendimento = null;
+        
+        if($comando->execute())
+        {
+            if($comando->rowCount())
+            {
+                $linha=$comando->fetch(\PDO::FETCH_ASSOC);
+                $solicitacaoAtendimento=$this->fillObject($linha);
+            }
+        }
+        else
+            throw new RuntimeException("retornoUnico: Falha na consulta ao banco de dados: ".$comando->errorInfo());
+        
+        return $solicitacaoAtendimento;
+    }
+
 }
 
 ?>

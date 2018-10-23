@@ -109,8 +109,7 @@
                             <div class="col-sm-8">
                                 <label for="novaSolicitacaoAtendimento">Solicitação </label>
                                 <select id="novaSolicitacaoAtendimento" name="novaSolicitacaoAtendimento" class="form-control">
-                                    <option value="">Selecione...</option>
-                                    <option value="1">Bananan</option>
+                                    <option value="">Selecione...</option>                                    
                                 </select>
                             </div>
                         </div>
@@ -165,8 +164,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <label for="novaDescricaoSolucao">Descrição solução</label>
-                                <textarea id="novaDescricaoSolucao" name="novaDescricaoSolucao" class="form-control" style="resize: vertical"> 
-                                </textarea>
+                                <textarea id="novaDescricaoSolucao" name="novaDescricaoSolucao" class="form-control" style="resize: vertical"></textarea>
                             </div>
                         </div>
                         <div class="row">
@@ -261,8 +259,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <label for="editarDescricaoSolucao">Descrição solução</label>
-                                <textarea id="editarDescricaoSolucao" name="editarDescricaoSolucao" class="form-control" style="resize: vertical"> 
-                                </textarea>
+                                <textarea id="editarDescricaoSolucao" name="editarDescricaoSolucao" class="form-control" style="resize: vertical"></textarea>
                             </div>
                         </div> 
                         <div class="row">

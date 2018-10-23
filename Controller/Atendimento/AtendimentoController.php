@@ -131,13 +131,13 @@ try
             $datafim = filter_input(INPUT_POST,"datafim",\FILTER_SANITIZE_STRING);
             $descricao = filter_input(INPUT_POST,"descricao",\FILTER_SANITIZE_STRING);
 
-            if(strlen($datanicio))
+            if(strlen($datainicio))
                 $datainicio=\DateTime::createFromFormat("d/m/Y",$datainicio,new DateTimeZone("America/Sao_Paulo"));
             else
                 throw new \InvalidArgumentException("alterarAtendimento: falta a data de início.");
             
             if(strlen($datafim))
-                $datafim=\DateTime::createFromFormat("d/m/Y",$datafinalizado, new \DateTimeZone("America/Sao_Paulo"));
+                $datafim=\DateTime::createFromFormat("d/m/Y",$datafim, new \DateTimeZone("America/Sao_Paulo"));
             else
                 $datafim=null;
             
@@ -154,7 +154,7 @@ try
             if($datainicio === false)
                 throw new \InvalidArgumentException("alterarAtendimento: data de início em formato inválido.");
             if($datafim === false)    
-                throw new \InvalidArgumentException("alterarAtendimento: data de fim em formato inválido.");
+                throw new \InvalidArgumentException("alterarAtendimento: data de fim em formato inválido. Data fim: $datafim");
             if($datainicio != null && $datafim != null && $datafim<$datainicio)
                 throw new \InvalidArgumentException("alterarAtendimento: data de fim menor que a de inicio");
             

@@ -184,7 +184,7 @@ var AtendimentoView = {
                 
                 if(dataFinalPartes.length != 3 || dataInicialPartes.length != 3)
                 {
-                    alert("ok ");
+                    //alert("ok ");
                     return false;
                 }
 
@@ -306,19 +306,19 @@ var AtendimentoView = {
 
         $("#btnEditarAtendimento").click(function(e){
             e.preventDefault();   
-            console.log(AtendimentoView.validadorEditar);
-            alert("Você clicou");
+            console.log(AtendimentoView.validadorEditar);            
             if($("#formEditarAtendimento").valid())
             {
-                //alert("teste");
-                ///TODO 18/10 - Chamar função para editar e verificar se funciona                
                 AtendimentoController.AlterarAtendimento(
                     {localde:$("#editarLocalDE").val(),situacao:$("#editarSituacao").val(),datainicio:$("#editarDataInicio").val(),
                      datafim: $("#editarDataFinalizacao").val(),descricao: $("#editarDescricaoSolucao").val(),idtecnico: AtendimentoView.idEdicaoTecnicoAtual,
                      idsolicitacao: AtendimentoView.idEdicaoSolicitacaoAtual},
                      function(retorno) {
                          console.log(retorno);
-                         alert("Dados alterados com sucesso");
+                         AtendimentoView.tabela.clear().draw();                         
+                         alert("Dados alterados com sucesso !");
+                         $("#modalEditar").modal("hide");
+                         
                      },
                      function(req,erro,msg) {
                          console.log(req);console.log(erro); console.log(msg);

@@ -128,8 +128,7 @@ var AtendimentoController = {
             }
         }); 
     },
-    AlterarAtendimento: function(parametros,fxsucesso,fxerro) {
-        alert("AlterarAtendimento");
+    AlterarAtendimento: function(parametros,fxsucesso,fxerro) {        
         if(parametros.localde == null || parametros.situacao == null ||
            parametros.datainicio == null || parametros.datafim == null ||
            parametros.descricao == null || parametros.idtecnico == null ||

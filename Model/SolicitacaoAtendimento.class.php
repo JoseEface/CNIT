@@ -43,7 +43,7 @@ class SolicitacaoAtendimento
      *
      * @return  self
      */ 
-    public function setDataAbertura($dataAbertura)
+    public function setDataAbertura(\DateTime $dataAbertura)
     {
         $this->dataAbertura = $dataAbertura;
 

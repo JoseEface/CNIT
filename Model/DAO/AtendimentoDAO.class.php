@@ -50,6 +50,11 @@ class AtendimentoDAO
                     $lista[]=$this->fillObject($linha);
             }
         }
+        else
+        {
+            $comando->closeCursor();
+            throw new \RuntimeException("Listar atendimentos falhou: ".$comando->errorInfo());
+        }
         
         $comando->closeCursor();
 
@@ -74,7 +79,11 @@ class AtendimentoDAO
             }
         }
         else
-            echo "O comando não executou";
+        {
+            $comando->closeCursor();
+            throw new \RuntimeException("Retorna único atendimento falhou: ".$comando->errorInfo());
+        }
+            
 
         $comando->closeCursor();
 
@@ -125,6 +134,11 @@ class AtendimentoDAO
                 }
             }
         }
+        else
+        {
+            $comando->closeCursor();
+            throw new \RuntimeException("Falha ao buscar Atendimento: ".$comando->errorInfo());
+        }
         
         $comando->closeCursor();
 
@@ -162,7 +176,7 @@ class AtendimentoDAO
             $quantidade=$linha["qtdSolicitacao"];
         }
         else
-            throw new \RuntimeException("atendimentolivre-dao: falha ao consultar atendimento livre");
+            throw new \RuntimeException("atendimentolivre-dao: falha ao consultar atendimento livre.");
 
         $comando->closeCursor();
 
@@ -171,19 +185,22 @@ class AtendimentoDAO
 
     public function editar(\Model\Atendimento $atendimento)
     {
-        $alteracao = "update table atendimento set descricaoSolucao=:descricaosolucao,idLocalNaDe=:idlocalde 
-                                  idSituacao=:idsituacao, dataFinalizado=:dataFinalizado, dataInicio=:datainicio
-                                  where idTecnico=:idtecnico and idSolicitacaoAtendiment=:idSolicitacaoAtendimento";
+        $alteracao = "update atendimento set descricaoSolucao=:descricaosolucao,idLocalNaDe=:idlocalde, 
+                                  idSituacao=:idsituacao, dataFinalizado=:dataFinalizado, dataInicio=:dataInicio
+                                  where idTecnico=:idTecnico and idSolicitacaoAtendimento=:idSolicitacaoAtendimento";
         $comando = $this->conexao->prepare($alteracao);                                
         $comando->bindValue(":descricaosolucao",$atendimento->getDescricaoSolucao(),\PDO::PARAM_STR);
         $comando->bindValue(":idlocalde",$atendimento->getIdLocalNaDe(),\PDO::PARAM_INT);
         $comando->bindValue(":idsituacao",$atendimento->getIdSituacao(),\PDO::PARAM_INT);
         $comando->bindValue(":dataFinalizado",($atendimento->getDataFinalizado() == null)?null:$atendimento->getDataFinalizado()->format("Y-m-d"),\PDO::PARAM_STR);
-        $comando->bindValue(":dataInicio",$atendimento->getDataIncio()->format("Y-m-d"),\PDO::PARAM_STR);
+        $comando->bindValue(":dataInicio",$atendimento->getDataInicio()->format("Y-m-d"),\PDO::PARAM_STR);
         $comando->bindValue(":idTecnico",$atendimento->getIdTecnico(),\PDO::PARAM_INT);
         $comando->bindValue(":idSolicitacaoAtendimento",$atendimento->getIdSolicitacaoAtendimento(),\PDO::PARAM_INT);
-        
-        return $comando->execute();
+        $resultado=$comando->execute();
+        if(!$resultado)
+            print_r($comando->errorInfo());
+        $comando->closeCursor();
+        return $resultado;
     }
 }
 
