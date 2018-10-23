@@ -269,7 +269,7 @@
 
 <div class="modal fade" id="modalBuscarDono">
     <div class="modal-dialog">
-        <form method="post" action="">
+        <form method="post" id="formBuscarDono" action="">
             <div class="modal-content">
 
                 <div class="modal-header bg-primary">                
@@ -278,7 +278,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <form>
+                    <!--<form> -->
                         <div class="form-group">        
                             <div class="row">
                                 <div class="col-sm-12">
@@ -286,7 +286,7 @@
                                     <input type="text" name="donoProcurado" id="donoProcurado" class="form-control" />
                                 </div>
                                 <div class="col-sm-12">
-                                    <span class="help-block" id="vdonoProcurado">Campo obrigatório</span>
+                                    <span class="help-block" id="vdonoProcurado"></span>
                                 </div>
                             </div>
                         </div>
@@ -297,7 +297,7 @@
 
                             </select>
                         </div>
-                    </form>
+                    <!--</form>-->
 
                 </div>            
                 <div class="modal-footer" style="text-align: center;">

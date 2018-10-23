@@ -66,7 +66,7 @@ var SolicitacaoAtendimentoController = {
     CarregarSolicitacao: function(parametros,fxsucesso,fxerro)
     {
         if(parametros.idsolicitacao == null)
-            throw new Error("Auesência de parâemtros: idsolicitação");
+            throw new Error("Auesência de parâmetros: idsolicitação");
         
         $.ajax({
             url: "Controller/SolicitacaoAtendimento/SolicitacaoAtendimentoController.php",
@@ -84,8 +84,8 @@ var SolicitacaoAtendimentoController = {
     EditarSolicitacao: function(parametros,fxsucesso,fxerro)
     {
         if(parametros.idsolicitacao == null || parametros.dataAbertura == null ||
-           parametros.idnit == null || parametros.descricaoproblema == null ||
-           (parametros.idescola == null && parametros.iddonoalternativo == null) )
+           parametros.idnit == null || parametros.descricaoproblema == null &&
+           (parametros.idescola == null || parametros.iddonoalternativo == null) )
            throw new Error("Ausência de parâmetros");
         
         $.ajax({

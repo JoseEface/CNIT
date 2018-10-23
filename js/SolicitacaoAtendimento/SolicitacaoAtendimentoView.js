@@ -5,17 +5,20 @@ var SolicitacaoAtendimentoView = {
     validadorAdicionar: null,
     validadorBuscar: null,
     validadorEditar: null,
+    validadorBucarDono: null,
     idSolicitacaoEditada: null,    
     DonoSolicitado: function(modaldiv) {
+        SolicitacaoAtendimentoView.validadorBuscarDono.resetForm();
+        $("#formBuscarDono .help-block").html("");
         if(modaldiv == "modalAdicionar" && $("#modalAdicionar").is(":visible"))
         {
             $("#modalAdicionar").modal("hide");
-            addflag=true;
+            SolicitacaoAtendimentoView.addflag=true;
         }
         if(modaldiv == "modalEdicao" && $("#modalEdicao").is(":visible"))
         {
             $("#modalEdicao").modal("hide");
-            edflag=true;
+            SolicitacaoAtendimentoView.edflag=true;
         }
 
         $("#modalBuscarDono").modal();
@@ -58,6 +61,14 @@ var SolicitacaoAtendimentoView = {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
             }
         });
+
+        SolicitacaoAtendimentoView.validadorBuscarDono=criarValidador("#formBuscarDono",
+            {
+                donoProcurado: {
+                    required: true
+                }
+            }
+        );
 
         SolicitacaoAtendimentoView.validadorEditar=criarValidador("#formEditar",
             {
@@ -262,6 +273,15 @@ var SolicitacaoAtendimentoView = {
 
                     }
                 );
+            }
+        });
+
+        $("#btnProcurarDono").click(function(e){
+            e.preventDefault();
+            if($("#formBuscarDono").valid())
+            {
+                //alert("teste");
+                /** TODO **/
             }
         });
 
