@@ -4,7 +4,7 @@
     </div>
                     
     <div class="panel-body">
-        
+        <form id="formAlterar" action="">
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-3">
@@ -20,7 +20,7 @@
                 <div class="col-sm-3">
                 </div> 
                 <div class="col-sm-6 offset-md-3">
-                    <span class="help-block" class="color: red" id="vnomeConta">Mensagem de validação</span>
+                    <span class="help-block" class="color: red" id="vnomeConta"></span>
                 </div>
                 <div class="col-sm-3">
                 </div>
@@ -41,7 +41,7 @@
                 <div class="col-sm-3">
                 </div> 
                 <div class="col-sm-6 offset-md-3">
-                    <span class="help-block" class="color: red" id="vloginConta">Mensagem de validação</span>
+                    <span class="help-block" class="color: red" id="vloginConta"></span>
                 </div>
                 <div class="col-sm-3">
                 </div>
@@ -52,7 +52,7 @@
                 <div class="col-sm-3">
                 </div>
                 <div class="col-sm-6">
-                    <label for="senhaConta">Senha</label>
+                    <label for="senhaConta">Senha (atual)</label>
                     <input type="password" name="senhaConta" id="senhaConta" class="form-control" style="max-width: 200px;" />
                 </div>
                 <div class="col-sm-3">
@@ -62,7 +62,7 @@
                 <div class="col-sm-3">
                 </div> 
                 <div class="col-sm-6 offset-md-3">
-                    <span class="help-block" class="color: red" id="vsenhaConta">Mensagem de validação</span>
+                    <span class="help-block" class="color: red" id="vsenhaConta"></span>
                 </div>
                 <div class="col-sm-3">
                 </div>
@@ -83,7 +83,7 @@
                 <div class="col-sm-3">
                 </div> 
                 <div class="col-sm-6 offset-md-3">
-                    <span class="help-block" class="color: red" id="vsenhaAlterarConta">Mensagem de validação</span>
+                    <span class="help-block" class="color: red" id="vsenhaAlterarConta"></span>
                 </div>
                 <div class="col-sm-3">
                 </div>
@@ -98,13 +98,24 @@
                     <label for="senhaConfirmaConta">Senha (confirma)</label>
                     <input type="password" name="senhaConfirmaConta" id="senhaConfirmaConta" class="form-control" style="max-width: 200px;" />
                 </div>
-                <div>
+                <div class="col-sm-3">
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-3">
+                </div> 
+                <div class="col-sm-6 offset-md-3">
+                    <span class="help-block" class="color: red" id="vsenhaConfirmaConta"></span>
+                </div>
+                <div class="col-sm-3">
+                </div>
+            </div>           
         </div>
+        
     </div>    
 
     <div class="panel-footer" style="text-align: center;">
-        <button type="button" class="btn btn-success">Alterar</button>
+        <button type="button" class="btn btn-success" id="btnAlterar">Alterar</button>
     </div>
+    </form>
 </div>

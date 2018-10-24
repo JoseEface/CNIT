@@ -7,8 +7,11 @@ function criarValidador(idjqFormulario, regras)
             /*console.log(error); console.log(elemento);
             console.log("#v"+$(elemento).attr("id")); console.log(error.text());*/
             $("#v"+$(elemento).attr("id")).html(error.text());
+            /*console.log("Deu erro");
+            console.log("#v"+$(elemento).attr("id"));*/
         },
         success: function(label, element) {
+            //console.log("Está ok");
             $("#v"+$(element).attr("id")).html("");
         }
     });

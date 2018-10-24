@@ -4,7 +4,17 @@ namespace Model;
 
 class BuscaSolicitacaoAtendimento
 {
-    private $idSolicitacaoAtendimento,$escola,$donoAlternativo;
+    private $dataAbertura,$idSolicitacaoAtendimento,$escola,$donoAlternativo;
+
+    public function setDataAbertura(\DateTime $dataAbertura)
+    {
+        $this->dataAbertura=$dataAbertura;
+    }
+
+    public function getDataAbertura()
+    {
+        return $dataAbertura;
+    }
 
     /**
      * Get the value of idSolicitacaoAtendimento
@@ -64,6 +74,11 @@ class BuscaSolicitacaoAtendimento
         $this->donoAlternativo = $donoAlternativo;
 
         return $this;
+    }
+
+    public function prontoParaSerialize()
+    {
+        return get_object_vars($this);
     }
 
 }

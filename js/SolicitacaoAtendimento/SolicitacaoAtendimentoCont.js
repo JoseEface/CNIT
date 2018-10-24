@@ -4,7 +4,7 @@ var SolicitacaoAtendimentoController = {
            parametros.idnit == null || parametros.descricaoproblema == null ||
            parametros.nomeentregador == null || (parametros.idescola == null && parametros.iddonoalternativo == null))
             throw new Error("Ausência de parâmetros para o controlador - AdicionaSolicitação");            
-
+        
         $.ajax({
             url: "Controller/SolicitacaoAtendimento/SolicitacaoAtendimentoController.php",
             type: "post",
@@ -82,21 +82,22 @@ var SolicitacaoAtendimentoController = {
         });
     },
     EditarSolicitacao: function(parametros,fxsucesso,fxerro)
-    {
-        if(parametros.idsolicitacao == null || parametros.dataAbertura == null ||
+    {        
+        if(parametros.idsolicitacao == null || parametros.dataabertura == null ||
            parametros.idnit == null || parametros.descricaoproblema == null &&
-           (parametros.idescola == null || parametros.iddonoalternativo == null) )
+           (parametros.idescola == null && parametros.iddonoalternativo == null) )
            throw new Error("Ausência de parâmetros");
         
         $.ajax({
             url: "Controller/SolicitacaoAtendimento/SolicitacaoAtendimentoController.php",
             type: "post",
             data: {"acao":"EditarSolicitacao",
-                    "idsolicitacao":parametros.idsolicitacao, "dataabertura":parametros.dataAbertura,
+                    "idsolicitacao":parametros.idsolicitacao, "dataabertura":parametros.dataabertura,
                     "idnit":parametros.idnit,"descricaoproblema":parametros.descricaoproblema,
                     "idescola":parametros.idescola,"iddonoalternativo":parametros.iddonoalternativo,
                     "nomeentregador":parametros.nomeentregador
             },
+            dataType: "json",
             success: function(retorno) {
                 fxsucesso(retorno);
             },

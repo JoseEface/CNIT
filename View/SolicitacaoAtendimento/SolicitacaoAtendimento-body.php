@@ -204,7 +204,7 @@
                             </div>
                             <div class="col-sm-5">
                                 <label for="eddonoAlternativo">Outro dono </label>
-                                <input type="text" id="eddonoAlternativo" name="eddonoAlternativo" class="form-control" type="text" onclick="SolicitacaoAtendimentoView.DonoSolicitado('modalEdicao')" readonly="readonly"/>
+                                <input type="text" id="eddonoAlternativo" name="eddonoAlternativo" class="edgrupo form-control" type="text" onclick="SolicitacaoAtendimentoView.DonoSolicitado('modalEdicao')" readonly="readonly"/>
                             </div>
                             <div class="col-sm-4">
                                 <label for="edidnit">Id NIT</label>
@@ -216,9 +216,10 @@
                                 <span class="help-block" id="veddataSolicitacao">Campo obrigatório</span>
                             </div>
                             <div class="col-sm-5">
+                                <span class="help-block" id="veddonoAlternativo">Campo obrigatório</span>
                             </div>
                             <div class="col-sm-3">
-                                <span class="help-block" id="edidnit">Campo obrigatório</span>
+                                <span class="help-block" id="vedidnit">Campo obrigatório</span>
                             </div>
                         </div>
                     </div>
@@ -226,7 +227,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <label for="edescola">Escola </label>
-                                <select id="edescola" name="edescola" class="form-control">
+                                <select id="edescola" name="edescola" class="edgrupo form-control">
                                     <option value="">Selecione...</option>
                                 </select>                
                             </div>
