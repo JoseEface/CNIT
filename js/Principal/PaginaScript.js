@@ -1,3 +1,5 @@
+InicialView.InicieComponentesGlobal();
+/*
 $("#menuSair, #mnpopSair").click(function(){
     $.ajax({
         type: "post",
@@ -14,3 +16,4 @@ $("#menuSair, #mnpopSair").click(function(){
         }
     });
 });
+*/

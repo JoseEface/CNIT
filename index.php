@@ -83,7 +83,7 @@ $controlador=filter_input(INPUT_GET,"controller");
 
     <!-- Part 1: Wrap all page content here -->
     <div id="wrap">
-      <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -98,7 +98,7 @@ $controlador=filter_input(INPUT_GET,"controller");
         
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuário<span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span id="nomeUsuario">Usuário</span> <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="?controller=MinhaConta"> <span class="glyphicon glyphicon-user"></span> Perfil  </a></li>
                             <li role="separator" class="divider"></li>
@@ -166,9 +166,11 @@ $controlador=filter_input(INPUT_GET,"controller");
 
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
+ 
     <script src="js/bootstrapModalFix.js"> </script>
-    <script type="text/javascript" src="js/Principal/PaginaScript.js"> </script>
+    <script src="js/Inicial/InicialCont.js"> </script>
+    <script src="js/Inicial/InicialView.js"> </script>      
+    <script type="text/javascript" src="js/Principal/PaginaScript.js"> </script>    
 
     <?php
         if(file_exists("View/$controlador/$controlador-script.php"))

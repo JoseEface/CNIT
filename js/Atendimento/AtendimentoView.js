@@ -81,6 +81,7 @@ var AtendimentoView = {
                 }
             },
             function(req,erro,msg) {
+                console.log(req);console.log(erro);console.log(msg);
                 alert("Falha na solicitação ao servidor.");
             }
         );

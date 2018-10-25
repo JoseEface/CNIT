@@ -74,6 +74,69 @@ class TecnicoDAO
 
         return $lista;
     }
+
+    public function retornaUnico($idtecnico)
+    {
+        $consulta = "select * from tecnico where idtecnico=:idtecnico";
+        $tecnico = null;
+        $comando = $this->conexao->prepare($consulta);
+        $comando->bindValue(":idtecnico",$idtecnico,\PDO::PARAM_INT);
+
+        if($comando->execute())
+        {
+            if($comando->rowCount())
+            {
+                $linha=$comando->fetch(\PDO::FETCH_ASSOC);
+                $tecnico=$this->fillObject($linha);
+            }
+        }
+        else
+            throw new \RuntimeException("retornaUnico: Falha ao retorna único técnico ".$comando->errorInfo()[2]);
+        
+        return $tecnico;
+    }
+
+    /** Assume-se que o hash sha256 deve ser feito antes de ser enviado para esse método **/
+    public function editar(\Model\Tecnico $tecnico)
+    {
+        $edicao = "update tecnico set nome=:nome,login=:login,senha=:senha where idtecnico=:idtecnico";
+        $comando = $this->conexao->prepare($edicao);
+        $tecnicoAtual = $this->retornaUnico($tecnico->getIdTecnico());
+
+        if($tecnico == null)
+            throw new \RuntimeException("editar: Não foi encontrado técnico com o id informado");
+
+        $comando->bindValue(":nome",$tecnico->getNome(),\PDO::PARAM_STR);
+        $comando->bindValue(":login",$tecnico->getLogin(),\PDO::PARAM_STR);
+        if($tecnicoAtual->getSenha() == $tecnico->getSenha())
+            $comando->bindValue(":senha",$tecnico->getSenha(),\PDO::PARAM_STR);
+        else
+            $comando->bindValue(":senha",$tecnico->getSenha(),\PDO::PARAM_STR);
+        $comando->bindValue(":idtecnico",$tecnico->getIdTecnico(),\PDO::PARAM_INT);
+        
+        if(!$comando->execute())
+            throw new \RuntimeException("editar: Falha ao alterar dados do técnico: ".$comando->errorInfo()[2]);
+        
+        return true;
+    }
+
+    public function confereSenha($idtecnico, $senha)
+    {
+        $confere = "select idTecnico from tecnico where idTecnico=:idtecnico and senha=:senha";
+        $comando = $this->conexao->prepare($comando);
+        $comando->bindValue(":idtecnico",$idtecnico,\PDO::PARAM_INT);
+        $comando->bindValue(":senha",$senha,\PDO::PARAM_STR);
+        $resultado = 0;
+        
+        if($comando->execute())
+            $resultado=$comando->rowCount();
+        else    
+            throw new \RuntimeException("confereSenha: Falha ao enviar comando para o banco de dados ".$comando->errorInfo()[2]);
+        
+        $comando->closeCursor();
+
+        return $resultado != 0;
+    }
 }
 
 ?>
