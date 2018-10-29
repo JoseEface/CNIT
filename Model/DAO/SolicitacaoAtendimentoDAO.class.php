@@ -199,6 +199,63 @@ class SolicitacaoAtendimentoDAO
         return true;
     }
 
+    public function qtdSolicitacoesPorTecnico($idTecnico)
+    {
+        $consulta = "select count(solicitacaoatendimento.idsolicitacaoatendimento) as quantidade from solicitacaoatendimento 
+                     inner join atendimento on solicitacaoatendimento.idSolicitacaoAtendimento = atendimento.idsolicitacaoatendimento
+                     where atendimento.idtecnico=:idtecnico";
+        $comando = $this->conexao->prepare($consulta);        
+        $comando->bindValue(":idtecnico",$idTecnico,\PDO::PARAM_INT);
+        $quantidade = 0;
+
+        if($comando->execute())
+        {
+            if($comando->rowCount())
+            {
+                $linha = $comando->fetch(\PDO::FETCH_ASSOC);
+                $quantidade = $linha["quantidade"];
+            }
+        }
+        else
+            throw new \RuntimeException("qtdSolicitacoesPorTecnico: Falha ao consultar banco de dados: ".$comando->errorInfo()[2]);
+
+        return $quantidade;
+    }
+
+    public function BuscaSolicitacoesLivres()
+    {
+        $busca = "select solicitacaoatendimento.idSolicitacaoAtendimento, dataAbertura, escola.nome as escola, donoalternativo.nome as donoalternativo,
+                  solicitacaoatendimento.idEscola as idEscola, solicitacaoatendimento.idDonoAlternativo as idDonoAlternativo 
+                  from solicitacaoatendimento
+                  left join escola on solicitacaoatendimento.idEscola = escola.idEscola
+                  left join donoalternativo on solicitacaoatendimento.idDonoAlternativo=solicitacaoatendimento.idDonoAlternativo
+                  left join atendimento on solicitacaoatendimento.idSolicitacaoAtendimento = atendimento.idsolicitacaoatendimento
+                  where atendimento.idTecnico is null";
+        $comando = $this->conexao->prepare($busca);
+        $listaResultado=array();      
+        $buscaatendimento=null;
+
+        if($comando->execute())
+        {
+            if($comando->rowCount())
+            {
+                while($linha = $comando->fetch(\PDO::FETCH_ASSOC))
+                {
+                    $buscaatendimento=new \Model\BuscaSolicitacaoAtendimento();
+                    $buscaatendimento->setIdSolicitacaoAtendimento($linha["idSolicitacaoAtendimento"]);
+                    $buscaatendimento->setEscola($linha["escola"]);
+                    $buscaatendimento->setDonoAlternativo($linha["donoalternativo"]);
+                    $buscaatendimento->setDataAbertura(new \DateTime($linha["dataAbertura"],new \DateTimeZone("America/Sao_Paulo")));
+                    $listaResultado[]=$buscaatendimento;                  
+                }
+            }
+        }
+        else
+            throw new \RuntimeException("BuscaSolicitacoesLivres: Falha ao consultar ".$comando->errorInfo()[2]);
+        
+        return $listaResultado;
+    }
+
 }
 
 ?>

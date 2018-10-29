@@ -137,6 +137,21 @@ class TecnicoDAO
 
         return $resultado != 0;
     }
+
+    public function loginExiste($login) {
+        $verifica = "select idTecnico from tecnico where login=:login";
+        $comando = $this->conexao->prepare($verifica);
+
+        $comando->bindValue(":login",$login,\PDO::PARAM_STR);
+        $quantidade = 0;
+        
+        if($comando->execute())        
+            $quantidade=$comando->rowCount();        
+        else
+            throw new \RuntimeException("loginExiste: Falha ao consultar banco de dados: ".$comando->errorInfo()[2]);        
+        
+        return $quantidade != null;
+    }    
 }
 
 ?>

@@ -268,7 +268,30 @@ var AtendimentoView = {
             e.preventDefault();
             $("#formAdicionar .help-block").html("");
             AtendimentoView.validadorAdicionar.resetForm();
-            $("#modalAdicionar").modal();            
+
+            SolicitacaoAtendimentoController.QtdSolicitacoesLivres(
+                function(retorno) {
+                    if(retorno.sucesso) {                        
+                        if(retorno.dados)                        
+                            $("#modalAdicionar").modal();                                                    
+                        else
+                            alert("No momento, não há solicitações para serem atendidas.");
+                    }
+                    else    
+                    {
+                        alert("Falha ao retornar dados do servidor");
+                        if(window.console)
+                            console.log(retorno);
+                    }
+                },
+                function(req,erro,msg) {
+                    if(window.console){
+                        console.log(req); console.log(erro); console.log(msg);
+                    }
+                }
+            );
+
+            //$("#modalAdicionar").modal();            
             /*
             AtendimentoController.QuantidadeSolicitacaoLivre(
                 function(retorno)  {                               

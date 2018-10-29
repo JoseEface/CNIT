@@ -4,6 +4,12 @@
     </div>
                     
     <div class="panel-body">
-        Bem-vindo Usuário !
+        <h3> Bem-vindo <span id="nomeUsuario"> </span> ! </h3>
+        <hr />
+        <br/>
+        <p>Alguns dados úteis: </p>        
+        <p>Ano: <b id="ano"> </b> </p> 
+        <p>Quantidade de solicitações disponíveis para atendimento: <b id="qtdDisponivel"> </b> </p>
+        <p>Quantidade de solicitações atendidas por você: <b id="qtdAtendidas"> </b> </p>
     </div>                    
 </div>

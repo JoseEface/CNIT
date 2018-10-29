@@ -1,5 +1,6 @@
 var MinhaContaView = {
     validadorMinhaConta: null,
+    loginAtual: null,
     InicieComponentes: function() {        
 
         $.validator.addMethod("senhaconfere",function(valor,elemento){
@@ -9,7 +10,7 @@ var MinhaContaView = {
                 return true;
 
             MinhaContaController.ConfereSenha({senha: $("#senhaConta").val()},
-                function(retorno) {
+                function(retorno) {                    
                     if(retorno.sucesso)
                         temUsuario=retorno.dados;
                     else
@@ -27,16 +28,48 @@ var MinhaContaView = {
             return temUsuario;
         },"Senha digitada não confere");
 
+        $.validator.addMethod("loginexiste",function(valor,elemento){
+            var naoTemLogin=false;            
+
+            MinhaContaController.LoginExiste(
+                {login: $("#loginConta").val()},
+                function(retorno) {
+                    if(retorno.sucesso) {
+                        //console.log(retorno);
+                        naoTemLogin=!retorno.dados;
+                    } 
+                    else {
+                        if(window.console) {
+                            console.log("Falha no retorno do servidor");
+                            console.log(retorno);
+                        }
+                    }
+                },
+                function(req,erro,msg) 
+                {
+                    console.log("LoginExisteJs: Falha na solicitação ao servidor");
+                    if(window.console) {
+                        console.log(req); console.log(erro);console.log(msg);
+                    }
+                }, false);
+            
+            return naoTemLogin;
+        },"Esse login já existe");
+
         MinhaContaView.validadorMinhaConta=criarValidador("#formAlterar",
         {
             nomeConta: {
                 required: true
             },
             loginConta: {
-                required: true
+                required: true,
+                loginexiste: true
             },
             senhaConta: {
                 /*required: true,*/
+                required: function(element) {                    
+                    return ($("#senhaAlterarConta").val() != "" || $("#senhaConfirmaConta").val() != "");
+                },
                 senhaconfere: true
             },
             senhaAlterarConta: {
@@ -46,17 +79,25 @@ var MinhaContaView = {
                 equalTo: "#senhaAlterarConta"
             }
         });
+/*
+        $("#senhaAlterarConta").change(function(){
+            MinhaContaView.validadorMinhaConta.element("#senhaConta");
+        });
+
+        $("#senhaConfirmaConta").change(function(){
+            MinhaContaView.validadorMinhaConta.element("#senhaConta");            
+        }); */
 
         $("#btnAlterar").click(function(e){            
             if($("#formAlterar").valid())
             {
                 MinhaContaController.AlterarConta({
                     nome: $("#nomeConta").val(), login: $("#loginConta").val(),
-                    senha: $("#senhaConta").val(), senhaNova: $("#senhaNova").val(),
-                    senhaConfirma: $("#senhaConfirma").val()
+                    senhaAtual: $("#senhaConta").val(), senhaNova: $("#senhaAlterarConta").val(),
+                    senhaConfirma: $("#senhaConfirmaConta").val()
                 },function(retorno) {
                     console.log(retorno);
-                    if(dados.sucesso)
+                    if(retorno.sucesso)
                     {
                         alert("Perfil atualizado com sucesso !");
                         location.reload();    
@@ -77,7 +118,8 @@ var MinhaContaView = {
             {
                 if(retorno.sucesso) {
                     $("#nomeConta").val(retorno.dados.nome);
-                    $("#loginConta").val(retorno.dados.login);                    
+                    $("#loginConta").val(retorno.dados.login);  
+                    MinhaContaView.loginAtual=retorno.dados.login;                  
                 }
                 else {
                     alert("Falha ao retornar dados do servidor.");

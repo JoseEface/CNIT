@@ -1,4 +1,5 @@
 var InicialView = {    
+    DadosUsuario: null,    
     InicieComponentesGlobal: function() {
 
         $(document).ready(function(){
@@ -8,10 +9,14 @@ var InicialView = {
                     /*if(window.console)
                         console.log(retorno);*/                   
                     if(retorno.sucesso) {
-                        $("#nomeUsuario").html(retorno.dados.login);
+                        $("#indLoginUsuario").html(retorno.dados.login);
+                        $("#nomeUsuario").html(retorno.dados.nome);
                     }
-                    else
+                    else {
                         alert("Ocorreu um erro ao atualizar os dados no servidor");
+                        if(window.console)
+                            console.log(retorno);
+                    }
                 },
                 function(req,erro,msg) {
                     alert("Falha na requisição ao servidor.");
@@ -23,20 +28,27 @@ var InicialView = {
 
                 
             $("#menuSair, #mnpopSair").click(function(){
-                $.ajax({
-                    type: "post",
-                    url: "Controller/Acesso/AcessoController.php",
-                    data: {"acao": "logout"},
-                    dataType: "json",
-                    success: function(dados) {
-                        location.href=".";
+                InicialController.FazerLogout(
+                    function(retorno) {
+                        if(retorno.sucesso) {
+                            location.href=".";
+                        }
+                        else
+                        {
+                            alert("Falha ao efetuar logout");
+                            if(window.console)
+                                console.log(retorno);
+                        }
                     },
-                    error: function (req,erro,msg) {
-                        console.log(req);
-                        console.log(erro);
-                        console.log(msg);
+                    function(req,erro,msg) {
+                        alert("Falha na requisição ao servidor");
+                        if(window.console)
+                        {
+                            console.log(req); console.log(erro);
+                            console.log(msg);
+                        }
                     }
-                });
+                );
             });            
 
         });
@@ -46,6 +58,46 @@ var InicialView = {
         $(document).ready(function(){           
 
             $("#menuInicial").addClass("extraActive");
+            
+            $("#ano").html( (new Date()).getFullYear() );
+
+            SolicitacaoAtendimentoController.QtdSolicitacoesLivres(
+                function(retorno) {
+                    if(retorno.sucesso)
+                        $("#qtdDisponivel").html(""+retorno.dados);
+                    else {
+                        alert("Falha ao buscar solicitações livres");
+                    }
+                },
+                function(req,erro,msg) {
+                    alert("Falha na solicitação ao servidor");
+                    if(window.console)
+                    {
+                        console.log(req); console.log(erro);
+                        console.log(msg);
+                    }
+                }
+            );
+
+            MinhaContaController.QtdMinhasSolicitacoes(
+                function(retorno) {
+                    if(retorno.sucesso) {
+                        $("#qtdAtendidas").html(retorno.dados);
+                    }
+                    else {
+                        if(window.console) {
+                            console.log(retorno);
+                        }
+                        alert("Falha ao consultar servidor");
+                    }
+                },
+                function(req,erro,msg) {
+                    alert("Falha na solicitação ao servidor !");
+                    if(window.console) {
+                        console.log(req); console.log(erro); console.log(msg);
+                    }
+                }
+            );
 
         });
     }

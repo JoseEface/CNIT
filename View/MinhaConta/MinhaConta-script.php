@@ -3,6 +3,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/localization/messages_pt_BR.min.js"></script>
 <script src="js/PluginUtil.js"> </script>
 <script src="js/MinhaConta/MinhaContaView.js"> </script>
+<script src="js/MinhaConta/MinhaContaCont.js"> </script>
 
 <script>
 

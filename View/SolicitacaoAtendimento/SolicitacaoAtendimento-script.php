@@ -9,9 +9,11 @@
 
 <script src="js/datepicker-BR.js"> </script>
 <script src="js/PluginUtil.js"> </script>
-<script src="js/SolicitacaoAtendimento/SolicitacaoAtendimentoCont.js"> </script>
-<script type="text/javascript" src="js/SolicitacaoAtendimento/SolicitacaoAtendimentoView.js"> </script>
 <script type="text/javascript" src="js/Escola/EscolaCont.js"> </script>
+<script src="js/SolicitacaoAtendimento/SolicitacaoAtendimentoCont.js"> </script>
+<script src="js/DonoAlternativo/DonoAlternativoCont.js"> </script>
+<script type="text/javascript" src="js/SolicitacaoAtendimento/SolicitacaoAtendimentoView.js"> </script>
+
 
 
 <script>

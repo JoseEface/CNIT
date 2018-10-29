@@ -1,4 +1,46 @@
 var SolicitacaoAtendimentoController = {
+    ProcurarDono: function(parametros,fxsucesso,fxerro) {
+        $.ajax({
+            type: "post",
+            url: "Controller/SolicitacaoAtendimento/SolicitacaoAtendimentoController.php",
+            data: {"acao":"ProcurarDono"},
+            dataType: "json",
+            success: function(retorno) {
+                fxsucesso(retorno);
+            },
+            error: function(req,erro,msg) {
+                fxerro(req,erro,msg);
+            }
+        });
+    },
+    BuscaSolicitacoesLivres: function(fxsucesso,fxerro) {
+        $.ajax({
+            type: "post",
+            url: "Controller/SolicitacaoAtendimento/SolicitacaoAtendimentoController.php",
+            data: {"acao":"BuscaSolicitacoesLivres"},
+            dataType: "json",
+            success: function(retorno) {
+                fxsucesso(retorno);
+            },
+            error: function(req,erro,msg) {
+                fxerro(req,erro,msg);
+            }
+        });
+    },
+    QtdSolicitacoesLivres: function(fxsucesso,fxerro) {
+        $.ajax({
+            type: "post",
+            url: "Controller/SolicitacaoAtendimento/SolicitacaoAtendimentoController.php",
+            data: {"acao":"QtdSolicitacaoLivre"},
+            success: function(retorno) 
+            {
+                fxsucesso(retorno);
+            },
+            error: function(req,erro,msg) {
+                fxerro(req,erro,msg);
+            }
+        });
+    },
     AdicionaSolicitacao: function(parametros, fxsucesso,fxerro) {
         if(parametros.dataabertura == null ||
            parametros.idnit == null || parametros.descricaoproblema == null ||
@@ -106,5 +148,20 @@ var SolicitacaoAtendimentoController = {
             }
         });
 
+    },
+    SolicitacoesLivres: function(fxsucesso,fxerro) 
+    {
+        $.ajax({
+            type: "post",
+            url: "Controller/SolicitacaoAtendimento/SolicitacaoAtendimentoController.php",
+            data: {"acao":"listarSemAtendimento"},
+            dataType: "json",
+            success: function(retorno) {
+                fxsucesso(retorno);
+            },
+            error: function(req,erro,msg) {
+                fxerro(req,erro,msg);
+            }
+        });
     }
 };

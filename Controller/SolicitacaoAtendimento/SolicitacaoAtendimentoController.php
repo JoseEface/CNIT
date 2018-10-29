@@ -14,6 +14,25 @@ try
 {
     switch($acao)
     {
+        case "BuscaSolicitacoesLivres":
+            $conexao = \Model\Connection\ConnectionFactory::getConnection();
+            $sadao = new \Model\DAO\SolicitacaoAtendimentoDAO($conexao);
+
+            $lista = $sadao->BuscaSolicitacoesLivres();
+
+            $retornoJson->setSucesso(true);
+            $retornoJson->setMensagem("Dados retornados com sucesso");
+            $retornoJson->setDados(\Model\RetornoJson::prepareArraySerialize($lista));
+
+            break;
+        case "QtdSolicitacaoLivre":
+            $conexao = \Model\Connection\ConnectionFactory::getConnection();
+            $sadao = new \Model\DAO\SolicitacaoAtendimentoDAO($conexao);
+            $quantidade = $sadao->qtdSolicitacaoLivre();
+            $retornoJson->setSucesso(true);
+            $retornoJson->setMensagem("Quantidade retornada com sucesso");
+            $retornoJson->setDados($quantidade);
+            break;
         case "listarSemAtendimento":
             $conexao=\Model\Connection\ConnectionFactory::getConnection();
             $sadao=new \Model\DAO\SolicitacaoAtendimentoDAO($conexao);

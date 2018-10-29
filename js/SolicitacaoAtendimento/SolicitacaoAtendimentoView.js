@@ -9,6 +9,9 @@ var SolicitacaoAtendimentoView = {
     idSolicitacaoEditada: null,    
     DonoSolicitado: function(modaldiv) {
         SolicitacaoAtendimentoView.validadorBuscarDono.resetForm();
+        $("#btnResetarDono").click();
+        $("#donoSelecionado").html("");
+
         $("#formBuscarDono .help-block").html("");
         if(modaldiv == "modalAdicionar" && $("#modalAdicionar").is(":visible"))
         {
@@ -303,10 +306,77 @@ var SolicitacaoAtendimentoView = {
             e.preventDefault();
             if($("#formBuscarDono").valid())
             {
-                //alert("teste");
-                /** TODO **/
+                DonoAlternativoController.BuscarDono(
+                    {dono:$("#donoProcurado").val()},
+                    function(retorno) {
+                        if(retorno.sucesso) {                       
+                            $("#donoSelecionado").html("");
+    
+                            $.each(retorno.dados, function(indice,dados){
+                                $("#donoSelecionado").append(" <option value=\""+dados.idDonoAlternativo+"\">"+dados.nome+"</option> ");
+                            });
+    
+                            if(!retorno.dados.length)
+                                alert("Nenhum dono encontrado.");
+                            console.log(retorno);
+                        }
+                        else {
+                            if(window.console) {
+                                console.log(retorno);                            
+                            }
+                            alert("Falha ao retornar dados do servidor");
+                        }
+                    },
+                    function(req,erro,msg) {
+                        if(window.console)  {
+                            console.log(req); console.log(erro); console.log(msg);
+                        }
+                        alert("Falha ao realizar requisição.");
+                    }
+                );   
+
             }
         });
+
+        $("#btnListarLivres").click(function(e){
+            e.preventDefault();
+            novalinha = "";
+            SolicitacaoAtendimentoController.BuscaSolicitacoesLivres(
+                function(retorno) {
+                    if(retorno.sucesso) 
+                    {
+                        SolicitacaoAtendimentoView.tabela.clear().draw();
+                        $.each(retorno.dados,function(indice,solicitacao) {
+                            novalinha=[(new Date(solicitacao.dataAbertura.date)).toLocaleDateString(), solicitacao.escola, (solicitacao.donoAlternativo == null)?"-----":solicitacao.donoAlternativo, "<button type=\"button\" onclick=\"SolicitacaoAtendimentoView.CarregarSolicitacao("+solicitacao.idSolicitacaoAtendimento+")\"><span class=\"glyphicon glyphicon-pencil\"></span></button>"];
+                            SolicitacaoAtendimentoView.tabela.row.add(novalinha).draw(false);
+                        });
+
+                        if(retorno.dados.length)
+                            alert("Carregados "+retorno.dados.length+" solicitações livres");
+                        else
+                            alert("Nenhum solicitação livre disponível.");
+                    }
+                    else
+                    {
+                        if(window.console)
+                            console.log(retorno);
+                        alert("Não foi possível retornar dados do servidor");
+                    }
+                },
+                function(req,erro,msg) {
+                    if(window.console)
+                    {
+                        console.log(req); console.log(msg); console.log(erro);
+                    }
+                    alert("Falha na solicitação ao servidor");
+                }
+            );
+        }); 
+
+        $("#btnSelecionarDono").click(function(){
+            alert("Teste "+$("#donoSelecionado").val())
+        });
+
 
     }
 };

@@ -23,7 +23,7 @@ try
             $retornoJson->setMensagem("Retornando dados com sucesso !");
             $retornoJson->setDados($tecnico->prontoParaSerialize());
 
-            break;
+            break;        
         default:
             throw new \InvalidArgumentException("InicialController: comando inválido para o controlador.");
     }

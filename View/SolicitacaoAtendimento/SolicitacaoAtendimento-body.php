@@ -7,6 +7,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <button type="button" class="btn btn-primary btn-sm" id="btnNovo"><span class="glyphicon glyphicon-plus"></span> Novo</button>
+                <button type="button" class="btn btn-warning btn-sm" id="btnListarLivres"> Listar Livres</button>
             </div>
         </div>
         <br/>
@@ -271,6 +272,7 @@
 <div class="modal fade" id="modalBuscarDono">
     <div class="modal-dialog">
         <form method="post" id="formBuscarDono" action="">
+            <input type="reset" id="btnResetarDono" style="display: none" />
             <div class="modal-content">
 
                 <div class="modal-header bg-primary">                
@@ -292,7 +294,7 @@
                             </div>
                         </div>
                         
-                        <button type="button" class="btn btn-default" id="btnProcurarDono">Procurar</button> <br/><br/>
+                        <button type="button" class="btn btn-default" id="btnProcurarDono" >Procurar</button> <br/><br/>
                         <div class="form-group">
                             <select id="donoSelecionado" class="form-control" name="donoSelecionado" size="5">
 
