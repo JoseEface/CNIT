@@ -77,7 +77,7 @@ try
             
             if($dataabertura === false)
                 throw new InvalidArgumentException("NovaSolicitação: data de abertura inválida.");
-            if(($idescola == null && $iddonoalternativo == null) || (empty($idescola) && empty($iddonoalternativo)))
+            if(($idescola == null && $iddonoalternativo == null) || (empty($idescola) && empty($iddonoalternativo)) || (!empty($idescola)  && !empty($iddonoalternativo)))
                 throw new InvalidArgumentException("NovaSolicitacao: ou idescola ou iddonoalternativo devem ser definidos");
             if($iddonoalternativo == null)
             { 
@@ -89,6 +89,11 @@ try
                 if(empty($iddonoalternativo) || $iddonoalternativo === false)
                     throw new InvalidArgumentException("NovaSolicitacao: Optado por iddonoalternativo mas valor inválido.");
             }
+
+            if(empty($idescola))
+                $idescola=null;
+            if(empty($iddonoalternativo))
+                $iddonoalternativo=null;
 
             $conexao = \Model\Connection\ConnectionFactory::getConnection();
             $sadao = new \Model\DAO\SolicitacaoAtendimentoDAO($conexao);
@@ -198,10 +203,11 @@ try
                 throw new \InvalidArgumentException("EditarSolicitação: id do nit é um campo obrigatório");
             if(empty($descricaoproblema))
                 throw new \InvalidArgumentException("EditarSolicitação: descrição do problema é item obrigatório");
-            if(empty($idescola) && empty($iddonoalternativo))
-                throw new \InvalidArgumentException("EditarSolicitação: ou id da escola deve ser definido ou o id do dono");
+            if( (empty($idescola) && empty($iddonoalternativo)) || (!empty($idescola) && !empty($iddonoalternativo)) )
+                throw new \InvalidArgumentException("EditarSolicitação: ou id da escola deve ser definido ou o id do dono $idescola $iddonoalternativo");
             if(empty($nomeentregador))
                 throw new \InvalidArgumentException("EditarSolicitação: é necessário definir um nome de entregador");
+          
             if(empty($idescola))
                 $idescola=null;
             if(empty($iddonoalternativo))

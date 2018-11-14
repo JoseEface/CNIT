@@ -6,7 +6,7 @@ var SolicitacaoAtendimentoView = {
     validadorBuscar: null,
     validadorEditar: null,
     validadorBucarDono: null,
-    idSolicitacaoEditada: null,    
+    idSolicitacaoEditada: null,        
     DonoSolicitado: function(modaldiv) {
         SolicitacaoAtendimentoView.validadorBuscarDono.resetForm();
         $("#btnResetarDono").click();
@@ -16,11 +16,13 @@ var SolicitacaoAtendimentoView = {
         if(modaldiv == "modalAdicionar" && $("#modalAdicionar").is(":visible"))
         {
             $("#modalAdicionar").modal("hide");
+            $("#adddonoAlternativo").val("");
             SolicitacaoAtendimentoView.addflag=true;
         }
         if(modaldiv == "modalEdicao" && $("#modalEdicao").is(":visible"))
         {
             $("#modalEdicao").modal("hide");
+            $("#eddonoAlternativo").val("");            
             SolicitacaoAtendimentoView.edflag=true;
         }
 
@@ -30,15 +32,19 @@ var SolicitacaoAtendimentoView = {
         SolicitacaoAtendimentoController.CarregarSolicitacao(
             {idsolicitacao: idsol},
             function(retorno) {
+                var nomeDono = "";
                 if(retorno.sucesso)
                 {
                     SolicitacaoAtendimentoView.idSolicitacaoEditada=idsol;
                     SolicitacaoAtendimentoView.validadorEditar.resetForm();
                     console.log(retorno);
+                    
+                    if(retorno.dados.idDonoAlternativo != null)
+                        nomeDono = retorno.dados.idDonoAlternativo+" - "+$($("tr[id=\"tbl"+idsol+"\"] td")[2]).html();                    
                                         
                     $("#formEditar .help-block").html("");
                     $("#eddataSolicitacao").val((new Date(retorno.dados.dataAbertura.date)).toLocaleDateString());
-                    $("#eddonoAlternativo").val(retorno.dados.idDonoAlternativo);
+                    $("#eddonoAlternativo").val(nomeDono);
                     $("#edidnit").val(retorno.dados.idNit);
                     $("#edescola").val(retorno.dados.idEscola);
                     $("#ednomeEntregador").val(retorno.dados.nomeEntregador);
@@ -57,13 +63,66 @@ var SolicitacaoAtendimentoView = {
             }
         );
     },
+    RemoverSolicitacao: function(idsol) {        
+
+        SolicitacaoAtendimentoController.RemoverSolicitacao({idsolicitacao:idsol},
+            function(retorno) {
+                var linha=null;
+                if(retorno.sucesso) {
+                    alert("Solicitação removida com sucesso !");
+                    linha = SolicitacaoAtendimentoView.tabela.row("#tbl"+idsol);
+                    linha.remove().draw(false);
+                }
+                else {
+                    if(window.console)
+                        console.log(retorno);
+                    alert("FALHA ao remover solicitação.");
+                }                
+            },
+            function(req,erro,msg) {
+                if(window.console) {
+                    console.log(req); console.log(erro); console.log(msg);
+                }
+                alert("FALHA na solicitação ao servidor.");
+            }
+        );
+        
+    },
     InicieComponentes: function()
     {
         SolicitacaoAtendimentoView.tabela=$("#tblSolicitacoes").DataTable({
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
-            }
+            }            
         });
+
+        $.validator.addMethod("OuEscolaOuDono",function(value,element){
+            var condicao = null;
+
+            switch($(element).attr("id"))
+            {
+                case "addescola":
+                    condicao = ( ($("#adddonoAlternativo").val() == "" && value != "") || ($("#adddonoAlternativo").val() != "" && value == "") );
+                    break;
+                case "edescola":
+                    //console.log($("#eddonoAlternativo").val());
+                    condicao = ( ($("#eddonoAlternativo").val() != "" && value == "") || ($("#eddonoAlternativo").val() == "" && value != "") );
+                    break;
+                case "adddonoAlternativo":
+                    condicao = ( ($("#addescola").val() == "" && value != "") || ($("#addescola").val() != "" && value == "") );
+                    break;
+                case "eddonoAlternativo":
+                    condicao = ( ($("#edescola").val() == "" && value != "") || ($("#edescola").val() != "" && value == "")  );
+                    break;
+                default:
+                    condicao=true;
+            }
+            
+            //console.log("Mostrando id: "+$(element).attr("id")+" "+condicao);
+            return condicao;
+        }, "Deve ser escolhido ou escola ou dono");
+
+
 
         SolicitacaoAtendimentoView.validadorBuscarDono=criarValidador("#formBuscarDono",
             {
@@ -79,13 +138,23 @@ var SolicitacaoAtendimentoView = {
                     required: true
                 },
                 eddonoAlternativo: {
-                    require_from_group: [1,".edgrupo"]
+                    required: "#edescola:blank",
+                    OuEscolaOuDono: true/*function(element) {
+                        console.log("edescola: "+($("#edescola").val() == ""))
+                        return ($("#edescola").val() == "");
+                    }*/
+                    //require_from_group: [1,".edgrupo"]
                 },
                 edidnit: {
                     required: true
                 },
                 edescola: {
-                    require_from_group: [1,".edgrupo"]
+                    required: "#eddonoAlternativo:blank",
+                    OuEscolaOuDono: true /*function(element) {
+                        console.log("eddonoAlternativo: "+$("#eddonoAlternativo").val() == "");
+                        return ($("#eddonoAlternativo").val() == "");/
+                    }*/
+                    //require_from_group: [1,".edgrupo"]
                 },
                 ednomeEntregador: {
                     required: true
@@ -95,10 +164,25 @@ var SolicitacaoAtendimentoView = {
                 }
             }
         );
+
 /*
         $(".datepicker").datepicker();
         $(".datepicker").datepicker("setDate",new Date());
 */
+        $("#addescola").change(function(e){
+            //console.log("mudo select "+$("#addescola").val());
+            $("#vadddonoAlternativo").html("");
+            SolicitacaoAtendimentoView.validadorAdicionar.element("#adddonoAlternativo");
+            SolicitacaoAtendimentoView.validadorAdicionar.element("#addescola");
+        });
+
+        $("#edescola").change(function(e){
+            //console.log("mudo select "+$("#addescola").val());
+            $("#veddonoAlternativo").html("");
+            SolicitacaoAtendimentoView.validadorAdicionar.element("#eddonoAlternativo");
+            SolicitacaoAtendimentoView.validadorAdicionar.element("#edescola");
+        });
+
         $("#adddataSolicitacao").datepicker();
         $("#adddataSolicitacao").datepicker("setDate",new Date());
         $("#adddataSolicitacao").datepicker({
@@ -164,13 +248,17 @@ var SolicitacaoAtendimentoView = {
                 },
                 addidnit: {
                     required: true
-                },
+                }, 
                 addescola: {
+                    required: "#adddonoAlternativo:blank",
+                    OuEscolaOuDono: true
                     /*required: true,*/
-                    require_from_group: [1,".aomenosum"]
+                    //require_from_group: [1,".aomenosum"]
                 },
                 adddonoAlternativo: {
-                    require_from_group: [1,".aomenosum"]
+                    required: "#addescolablank:blank",
+                    OuEscolaOuDono: true
+                    //require_from_group: [1,".aomenosum"]
                 },
                 addnomeEntregador: {
                     required: true
@@ -195,14 +283,39 @@ var SolicitacaoAtendimentoView = {
             }
         );
 
+        $("#modalBuscarDono").on("hidden.bs.modal", function() {
+            //alert("fechado");
+            if(SolicitacaoAtendimentoView.addflag)
+            {
+                console.log("Modo adicionar");
+                $("#vadddonoAlternativo").html("");
+                $("#vaddescola").html("");
+                SolicitacaoAtendimentoView.validadorAdicionar.element("#adddonoAlternativo");
+                SolicitacaoAtendimentoView.validadorAdicionar.element("#addescola");
+            }
+            else
+            {
+                $("#veddonoAlternativo").html("");
+                $("#vedescola").html("");
+                SolicitacaoAtendimentoView.validadorAdicionar.element("#eddonoAlternativo");
+                SolicitacaoAtendimentoView.validadorAdicionar.element("#edescola");
+            }
+        });
+
         $("#btnSalvarSolicitacao").click(function(){            
             if($("#formAdicionar").valid()) {
-                alert($("#adddescricaoProblema").val());
+                //alert($("#adddescricaoProblema").val());
+                var  idDAlternativo = $("#adddonoAlternativo").val();
+                if(idDAlternativo != "")
+                {
+                    alert(idDAlternativo);
+                    idDAlternativo = idDAlternativo.split(" - ")[0];                    
+                }                
                 SolicitacaoAtendimentoController.AdicionaSolicitacao(
                     {
                         dataabertura: $("#adddataSolicitacao").val(), idnit: $("#addidnit").val(),
                         descricaoproblema: $("#adddescricaoProblema").val(), nomeentregador: $("#addnomeEntregador").val(),
-                        idescola: $("#addescola").val(), iddonoalternativo: $("#iddonoalternativo").val()
+                        idescola: $("#addescola").val(), iddonoalternativo: idDAlternativo
                     },
                     function(retorno) {
                         if(retorno.sucesso) {
@@ -223,10 +336,12 @@ var SolicitacaoAtendimentoView = {
             }
         });
 
-        $("#btnNovo").click(function(e){
+        $("#btnNovo").click(function(e){            
             SolicitacaoAtendimentoView.validadorAdicionar.resetForm();
+            $("#btnResetarFormAdicionar").click();
             $("#modalAdicionar .help-block").html("");
-            $("#modalAdicionar").modal("show");
+            $("#adddataSolicitacao").datepicker("setDate",new Date());
+            $("#modalAdicionar").modal("show");            
         });
         
         $("#dataSolicitacao").click(function(e){
@@ -240,7 +355,7 @@ var SolicitacaoAtendimentoView = {
                     {escola:$("#escola").val(),idnit:$("#idnit").val(),dataabertura:$("#dataSolicitacao").val()},
                     function(retorno) {
                         novalinha="";
-                        console.log(retorno);
+                        //console.log(retorno);
                         if(retorno.sucesso)
                         {
                             SolicitacaoAtendimentoView.tabela.clear().draw();
@@ -249,7 +364,7 @@ var SolicitacaoAtendimentoView = {
                             else
                             {
                                 $.each(retorno.dados,function(indice,solicitacao){
-                                    novalinha=[(new Date(solicitacao.dataAbertura.date)).toLocaleDateString(), solicitacao.escola, (solicitacao.donoAlternativo == null)?"-----":solicitacao.donoAlternativo, "<button type=\"button\" onclick=\"SolicitacaoAtendimentoView.CarregarSolicitacao("+solicitacao.idSolicitacaoAtendimento+")\"><span class=\"glyphicon glyphicon-pencil\"></span></button>"];
+                                    novalinha=[(new Date(solicitacao.dataAbertura.date)).toLocaleDateString(), (solicitacao.escola == null)?"-----":solicitacao.escola, (solicitacao.donoAlternativo == null)?"-----":solicitacao.donoAlternativo, "<button type=\"button\" onclick=\"SolicitacaoAtendimentoView.CarregarSolicitacao("+solicitacao.idSolicitacaoAtendimento+")\"><span class=\"glyphicon glyphicon-pencil\"></span></button>"];
                                     SolicitacaoAtendimentoView.tabela.row.add(novalinha).draw(false);
                                 });
                             }
@@ -273,18 +388,45 @@ var SolicitacaoAtendimentoView = {
             e.preventDefault();            
             if($("#formEditar").valid())
             {
+                var idDAlternativo = $("#eddonoAlternativo").val();
+                var nomeAlternativo = null;
+                var resultado = null;
+
+                if(idDAlternativo != "")
+                {
+                    resultado = idDAlternativo.split(" - ");                
+                    idDAlternativo = resultado[0];
+                    nomeAlternativo = resultado[1];
+                }
+
                 SolicitacaoAtendimentoController.EditarSolicitacao(
                     {idsolicitacao:SolicitacaoAtendimentoView.idSolicitacaoEditada,
-                     dataabertura: $("#eddataSolicitacao").val(), iddonoalternativo: $("#eddonoAlternativo").val(),
+                     dataabertura: $("#eddataSolicitacao").val(), iddonoalternativo: idDAlternativo/*$("#eddonoAlternativo").val()*/,
                      idnit:$("#edidnit").val(),descricaoproblema:$("#eddescricaoProblema").val(),
                      idescola:$("#edescola").val(),nomeentregador:$("#ednomeEntregador").val()
                     },
                     function(retorno) {
+                        var linhaEditada=null;                        
+                        var dadosLinha=null;
                         if(retorno.sucesso)
                         {
                             alert("Dados alterados com sucesso !");
                             $("#modalEdicao").modal("hide");
-                            SolicitacaoAtendimentoView.tabela.clear().draw();
+                            alert("#tbl"+SolicitacaoAtendimentoView.idSolicitacaoEditada);
+                            linhaEditada=SolicitacaoAtendimentoView.tabela.row("#tbl"+SolicitacaoAtendimentoView.idSolicitacaoEditada);                               
+                            dadosLinha=linhaEditada.data();
+                            
+                            if($("#edescola").val() != "")
+                                dadosLinha[1]=$("#edescola option:selected").text(); //Coluna da Escola                                
+                            else
+                                dadosLinha[1]="-----";
+                           
+                            if(nomeAlternativo != null)
+                                dadosLinha[2]=nomeAlternativo;
+                            else
+                                dadosLinha[2]="-----";
+                            
+                            linhaEditada.data(dadosLinha).draw(false);
                         }
                         else
                         {
@@ -347,10 +489,11 @@ var SolicitacaoAtendimentoView = {
                     {
                         SolicitacaoAtendimentoView.tabela.clear().draw();
                         $.each(retorno.dados,function(indice,solicitacao) {
-                            novalinha=[(new Date(solicitacao.dataAbertura.date)).toLocaleDateString(), solicitacao.escola, (solicitacao.donoAlternativo == null)?"-----":solicitacao.donoAlternativo, "<button type=\"button\" onclick=\"SolicitacaoAtendimentoView.CarregarSolicitacao("+solicitacao.idSolicitacaoAtendimento+")\"><span class=\"glyphicon glyphicon-pencil\"></span></button>"];
-                            SolicitacaoAtendimentoView.tabela.row.add(novalinha).draw(false);
+                            novalinha=[(new Date(solicitacao.dataAbertura.date)).toLocaleDateString(), (solicitacao.escola == null)?"-----":solicitacao.escola, (solicitacao.donoAlternativo == null)?"-----":solicitacao.donoAlternativo, "<button type=\"button\" onclick=\"SolicitacaoAtendimentoView.CarregarSolicitacao("+solicitacao.idSolicitacaoAtendimento+")\" title=\"Editar\"><span class=\"glyphicon glyphicon-pencil\"></span></button> <button type=\"button\" onclick=\"SolicitacaoAtendimentoView.RemoverSolicitacao("+solicitacao.idSolicitacaoAtendimento+")\" title=\"Excluir\"><span class=\"glyphicon glyphicon-trash\"></span></button>"];
+                            //SolicitacaoAtendimentoView.tabela.row.add(novalinha).draw(false);
+                            SolicitacaoAtendimentoView.tabela.row.add(novalinha).node().id="tbl"+solicitacao.idSolicitacaoAtendimento;
                         });
-
+                        SolicitacaoAtendimentoView.tabela.draw(false);
                         if(retorno.dados.length)
                             alert("Carregados "+retorno.dados.length+" solicitações livres");
                         else
@@ -374,9 +517,31 @@ var SolicitacaoAtendimentoView = {
         }); 
 
         $("#btnSelecionarDono").click(function(){
-            alert("Teste "+$("#donoSelecionado").val())
+            var donoselecionado=$("#donoSelecionado").val();
+            if(donoselecionado == null)
+                alert("Escolha ao menos um dono alternativo");
+            else
+            {                
+                if(SolicitacaoAtendimentoView.addflag)
+                {
+                    //console.log("MODO ADICIONAR");
+                    $("#adddonoAlternativo").val(donoselecionado+" - "+$("#donoSelecionado :selected").text());
+                    $("#vaddescola").html("");
+                    $("#vadddonoAlternativo").html("");                    
+                    SolicitacaoAtendimentoView.validadorAdicionar.element("#adddonoAlternativo");
+                    SolicitacaoAtendimentoView.validadorAdicionar.element("#addescola");
+                }
+                else
+                {
+                    //console.log("MODO EDITAR");
+                    $("#eddonoAlternativo").val(donoselecionado+" - "+$("#donoSelecionado :selected").text());
+                    $("#vedescola").html("");
+                    $("#veddonoAlternativo").html("");
+                    SolicitacaoAtendimentoView.validadorAdicionar.element("#eddonoAlternativo");
+                    SolicitacaoAtendimentoView.validadorAdicionar.element("#edescola");
+                }
+                $("#modalBuscarDono").modal("toggle");             
+            }
         });
-
-
     }
 };

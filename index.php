@@ -109,7 +109,7 @@ $controlador=filter_input(INPUT_GET,"controller");
          
                 </div><!--/.navbar-collapse -->
             </div>
-      </nav>
+        </nav>
         
       <!-- Begin page content -->
       <div class="container">

@@ -11,7 +11,7 @@
             </div>
         </div>
         <br/>
-        <form method="post" id="formBuscar" action="">
+        <form method="post" id="formBuscar" action="">            
             <input type="hidden" name="idSolicitacao" value="0" id="idSolicitacao"/>
             <div class="form-group">
                 <div class="row">
@@ -103,6 +103,7 @@
 <div class="modal fade" id="modalAdicionar">
     <div class="modal-dialog">
         <form method="post" id="formAdicionar" action="">
+            <button type="reset" id="btnResetarFormAdicionar" style="display: none">Resetar</button>
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                 
@@ -276,7 +277,7 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-primary">                
-                    <button type="button" class="close" data-dismiss="modal">&times</button>
+                    <button type="button" id="fecharBuscarDono" class="close" data-dismiss="modal">&times</button>
                     <b class="modal-title" style="text-transform: uppercase">Buscar Dono</b>
                 </div>
                 <div class="modal-body">

@@ -83,6 +83,7 @@ class SolicitacaoAtendimentoDAO
     {
         $insere="insert into solicitacaoatendimento values(0,:dataabertura,:idnit,:descricaoproblema,
                                                              :idescola,:iddonoalternativo,:nomeentregador)";
+        //print_r($solicitacao);                                                             
         $comando=$this->conexao->prepare($insere);
         $comando->bindValue(":dataabertura",$solicitacao->getDataAbertura()->format("Y-m-d"),\PDO::PARAM_STR);
         $comando->bindValue(":idnit",$solicitacao->getIdNit(),\PDO::PARAM_INT);
@@ -99,8 +100,9 @@ class SolicitacaoAtendimentoDAO
 
     public function remover($idsolicitacao)
     {
-        $remover="delete from solicitacaoatendimento where iSolicitacaoAtendimento=:idsolicitacao";
+        $remover="delete from solicitacaoatendimento where idSolicitacaoAtendimento=:idsolicitacao";
         $comando=$this->conexao->prepare($remover);
+        $comando->bindValue(":idsolicitacao",$idsolicitacao,\PDO::PARAM_INT);
         
         if(!$comando->execute())
             throw new \RuntimeException("Falha ao executar comando no banco de dados ".$comando->errorInfo()[2]);
@@ -184,12 +186,12 @@ class SolicitacaoAtendimentoDAO
         $atualizar = "update solicitacaoatendimento set dataAbertura=:dataabertura,idNit=:idnit,descricaoProblema=:descricaoproblema,
                                                         idEscola=:idescola,idDonoAlternativo=:iddonoalternativo,nomeEntregador=:nomeentregador
                                                         where idSolicitacaoAtendimento=:idsolicitacao";
-        $comando = $this->conexao->prepare($atualizar);
+        $comando = $this->conexao->prepare($atualizar);        
         $comando->bindValue(":dataabertura",$solicitacao->getDataAbertura()->format("Y-m-d"),\PDO::PARAM_STR);
         $comando->bindValue(":idnit",$solicitacao->getIdNit(),\PDO::PARAM_STR);
         $comando->bindValue(":descricaoproblema",$solicitacao->getDescricaoProblema(),\PDO::PARAM_STR);
         $comando->bindValue(":idescola",$solicitacao->getIdEscola(),\PDO::PARAM_INT);
-        $comando->bindValue(":iddonoalternativo",/*$solicitacao->getIdDonoAlternativo()*/null,\PDO::PARAM_INT);
+        $comando->bindValue(":iddonoalternativo",$solicitacao->getIdDonoAlternativo(),\PDO::PARAM_INT);
         $comando->bindValue(":nomeentregador",$solicitacao->getNomeEntregador(),\PDO::PARAM_STR);
         $comando->bindValue(":idsolicitacao",$solicitacao->getIdSolicitacaoAtendimento(),\PDO::PARAM_INT);
 

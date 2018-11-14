@@ -45,8 +45,10 @@ var SolicitacaoAtendimentoController = {
         if(parametros.dataabertura == null ||
            parametros.idnit == null || parametros.descricaoproblema == null ||
            parametros.nomeentregador == null || (parametros.idescola == null && parametros.iddonoalternativo == null))
-            throw new Error("Ausência de parâmetros para o controlador - AdicionaSolicitação");            
-        
+            throw new Error("AdicionaSolicitacao: Ausência de parâmetros para o controlador - AdicionaSolicitação");            
+        if(parametros.iddonoalternativo != "" && parametros.idescola != "")
+            throw new Error("AdicionaSolicitacao: Você pode definir ou um id para a escola ou um id para o dono");
+
         $.ajax({
             url: "Controller/SolicitacaoAtendimento/SolicitacaoAtendimentoController.php",
             type: "post",
@@ -129,6 +131,9 @@ var SolicitacaoAtendimentoController = {
            parametros.idnit == null || parametros.descricaoproblema == null &&
            (parametros.idescola == null && parametros.iddonoalternativo == null) )
            throw new Error("Ausência de parâmetros");
+
+        if(parametros.idescola != "" && parametros.iddonoalternativo != "")
+            throw new Error("Defina ou um dono em outro local ou um dono em uma escola - não podem haver dois donos");
         
         $.ajax({
             url: "Controller/SolicitacaoAtendimento/SolicitacaoAtendimentoController.php",
