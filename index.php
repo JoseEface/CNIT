@@ -122,6 +122,7 @@ $controlador=filter_input(INPUT_GET,"controller");
                     <a class="list-group-item" id="menuInicial" href="."><span class="glyphicon glyphicon-home"> </span> Inicial</a>
                     <a class="list-group-item" id="menuAtendimento" href="?controller=Atendimento"><span class="glyphicon glyphicon-wrench"></span> Atendimento</a>
                     <a class="list-group-item" id="menuSolicitacao" href="?controller=SolicitacaoAtendimento"><span class="glyphicon glyphicon-phone-alt"></span> Solicitação</a>
+                    <a class="list-group-item" id="menuEstatisticas" href="?controller=Estatisticas"> <span class="glyphicon glyphicon-signal"></span> Estatística </a>
                     <a class="list-group-item" id="menuMinhaConta" href="?controller=MinhaConta"><span class="glyphicon glyphicon-user"> </span> Minha Conta</a>
                     <a class="list-group-item" id="menuSair" href="javascript:void(0)"><span class="glyphicon glyphicon-log-out"> </span> Sair</a>            
                 </ul>

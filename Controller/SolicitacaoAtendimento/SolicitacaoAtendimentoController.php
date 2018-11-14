@@ -14,6 +14,16 @@ try
 {
     switch($acao)
     {
+        case "ListarTodas":
+            $conexao = \Model\Connection\ConnectionFactory::getConnection();
+            $sadao = new \Model\DAO\SolicitacaoAtendimentoDAO($conexao);
+
+            $lista=$sadao->buscar(null,null,null);
+            $retornoJson->setSucesso(true);
+            $retornoJson->setMensagem("Dados retornado com sucesso !");
+            $retornoJson->setDados(\Model\RetornoJson::prepareArraySerialize($lista));
+
+            break;
         case "BuscaSolicitacoesLivres":
             $conexao = \Model\Connection\ConnectionFactory::getConnection();
             $sadao = new \Model\DAO\SolicitacaoAtendimentoDAO($conexao);

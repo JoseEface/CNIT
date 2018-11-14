@@ -168,5 +168,18 @@ var SolicitacaoAtendimentoController = {
                 fxerro(req,erro,msg);
             }
         });
+    },
+    ListarTodasSolicitacoes: function(fxsucesso,fxerro) {
+        $.ajax({
+            type: "post",
+            url: "Controller/SolicitacaoAtendimento/SolicitacaoAtendimentoController.php",
+            data: {"acao":"ListarTodas"},
+            success: function(retorno) {
+                fxsucesso(retorno);
+            },
+            error: function(req,erro,msg) {
+                fxerro(req,erro,msg);
+            }
+        });
     }
 };

@@ -8,6 +8,7 @@
             <div class="col-sm-12">
                 <button type="button" class="btn btn-primary btn-sm" id="btnNovo"><span class="glyphicon glyphicon-plus"></span> Novo</button>
                 <button type="button" class="btn btn-warning btn-sm" id="btnListarLivres"> Listar Livres</button>
+                <button type="button" class="btn btn-warning btn-sm" id="btnListarTodas"> Listar Todas</button>
             </div>
         </div>
         <br/>

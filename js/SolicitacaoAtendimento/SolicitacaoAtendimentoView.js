@@ -88,6 +88,20 @@ var SolicitacaoAtendimentoView = {
         );
         
     },
+    PreencheDataTable: function(dados) {
+        SolicitacaoAtendimentoView.tabela.clear().draw(false);        
+        if(dados.constructor === Array)
+        {
+            $.each(dados,function(indice,solicitacao){
+                novalinha=[(new Date(solicitacao.dataAbertura.date)).toLocaleDateString(), (solicitacao.escola == null)?"-----":solicitacao.escola, (solicitacao.donoAlternativo == null)?"-----":solicitacao.donoAlternativo, "<button type=\"button\" onclick=\"SolicitacaoAtendimentoView.CarregarSolicitacao("+solicitacao.idSolicitacaoAtendimento+")\" title=\"Editar\"><span class=\"glyphicon glyphicon-pencil\"></span></button> <button type=\"button\" onclick=\"SolicitacaoAtendimentoView.RemoverSolicitacao("+solicitacao.idSolicitacaoAtendimento+")\" title=\"Excluir\"><span class=\"glyphicon glyphicon-trash\"></span></button>"];                            
+                SolicitacaoAtendimentoView.tabela.row.add(novalinha).node().id="tbl"+solicitacao.idSolicitacaoAtendimento;
+            });
+
+            SolicitacaoAtendimentoView.tabela.draw(false);            
+            if(!dados.length)
+                alert("Nenhum registro encontrado");
+        }
+    },
     InicieComponentes: function()
     {
         SolicitacaoAtendimentoView.tabela=$("#tblSolicitacoes").DataTable({
@@ -357,18 +371,7 @@ var SolicitacaoAtendimentoView = {
                         novalinha="";
                         //console.log(retorno);
                         if(retorno.sucesso)
-                        {
-                            SolicitacaoAtendimentoView.tabela.clear().draw();
-                            if(!retorno.dados.length)
-                                alert("Nenhum valor encontrado !");
-                            else
-                            {
-                                $.each(retorno.dados,function(indice,solicitacao){
-                                    novalinha=[(new Date(solicitacao.dataAbertura.date)).toLocaleDateString(), (solicitacao.escola == null)?"-----":solicitacao.escola, (solicitacao.donoAlternativo == null)?"-----":solicitacao.donoAlternativo, "<button type=\"button\" onclick=\"SolicitacaoAtendimentoView.CarregarSolicitacao("+solicitacao.idSolicitacaoAtendimento+")\"><span class=\"glyphicon glyphicon-pencil\"></span></button>"];
-                                    SolicitacaoAtendimentoView.tabela.row.add(novalinha).draw(false);
-                                });
-                            }
-                        }
+                            SolicitacaoAtendimentoView.PreencheDataTable(retorno.dados);
                         else
                         {
                             alert("Ocorreram falhas no servidor");
@@ -411,8 +414,7 @@ var SolicitacaoAtendimentoView = {
                         if(retorno.sucesso)
                         {
                             alert("Dados alterados com sucesso !");
-                            $("#modalEdicao").modal("hide");
-                            alert("#tbl"+SolicitacaoAtendimentoView.idSolicitacaoEditada);
+                            $("#modalEdicao").modal("hide");                            
                             linhaEditada=SolicitacaoAtendimentoView.tabela.row("#tbl"+SolicitacaoAtendimentoView.idSolicitacaoEditada);                               
                             dadosLinha=linhaEditada.data();
                             
@@ -489,8 +491,7 @@ var SolicitacaoAtendimentoView = {
                     {
                         SolicitacaoAtendimentoView.tabela.clear().draw();
                         $.each(retorno.dados,function(indice,solicitacao) {
-                            novalinha=[(new Date(solicitacao.dataAbertura.date)).toLocaleDateString(), (solicitacao.escola == null)?"-----":solicitacao.escola, (solicitacao.donoAlternativo == null)?"-----":solicitacao.donoAlternativo, "<button type=\"button\" onclick=\"SolicitacaoAtendimentoView.CarregarSolicitacao("+solicitacao.idSolicitacaoAtendimento+")\" title=\"Editar\"><span class=\"glyphicon glyphicon-pencil\"></span></button> <button type=\"button\" onclick=\"SolicitacaoAtendimentoView.RemoverSolicitacao("+solicitacao.idSolicitacaoAtendimento+")\" title=\"Excluir\"><span class=\"glyphicon glyphicon-trash\"></span></button>"];
-                            //SolicitacaoAtendimentoView.tabela.row.add(novalinha).draw(false);
+                            novalinha=[(new Date(solicitacao.dataAbertura.date)).toLocaleDateString(), (solicitacao.escola == null)?"-----":solicitacao.escola, (solicitacao.donoAlternativo == null)?"-----":solicitacao.donoAlternativo, "<button type=\"button\" onclick=\"SolicitacaoAtendimentoView.CarregarSolicitacao("+solicitacao.idSolicitacaoAtendimento+")\" title=\"Editar\"><span class=\"glyphicon glyphicon-pencil\"></span></button> <button type=\"button\" onclick=\"SolicitacaoAtendimentoView.RemoverSolicitacao("+solicitacao.idSolicitacaoAtendimento+")\" title=\"Excluir\"><span class=\"glyphicon glyphicon-trash\"></span></button>"];                            
                             SolicitacaoAtendimentoView.tabela.row.add(novalinha).node().id="tbl"+solicitacao.idSolicitacaoAtendimento;
                         });
                         SolicitacaoAtendimentoView.tabela.draw(false);
@@ -543,5 +544,27 @@ var SolicitacaoAtendimentoView = {
                 $("#modalBuscarDono").modal("toggle");             
             }
         });
+
+        $("#btnListarTodas").click(function(){
+            SolicitacaoAtendimentoController.ListarTodasSolicitacoes(
+                function (retorno) {
+                    //console.log(retorno);
+                    if(retorno.sucesso) 
+                        SolicitacaoAtendimentoView.PreencheDataTable(retorno.dados);
+                    else {
+                        if(window.console)
+                            console.log(retorno);
+                        alert("Falha ao consultar sistema");
+                    }
+                },
+                function(req,erro,msg) {
+                    if(window.console)  
+                    {
+                        console.log(req); console.log(erro); console.log(msg);
+                    }
+                    alert("Falha na requisição ao servidor");
+                }
+            );
+        }); 
     }
 };
